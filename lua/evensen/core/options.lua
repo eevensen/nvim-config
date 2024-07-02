@@ -14,6 +14,8 @@ vim.g.have_nerd_font = true
 
 -- Make line numbers default
 vim.opt.number = true
+vim.o.numberwidth = 2
+vim.o.ruler = false
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
@@ -41,6 +43,10 @@ vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
+vim.o.splitbelow = true
+vim.o.splitright = true
+vim.o.timeoutlen = 400
+vim.o.undofile = true
 
 -- Decrease update time
 vim.opt.updatetime = 250
@@ -86,5 +92,14 @@ vim.opt.backspace = 'indent,eol,start' -- allow backspace on indent, end of line
 
 -- turn off swapfile
 vim.opt.swapfile = false
+
+vim.opt.fillchars = { eob = ' ' }
+
+-- disable nvim intro
+vim.opt.shortmess:append 'sI'
+
+-- go to previous/next line with h,l,left arrow and right arrow
+-- when cursor reaches end/beginning of line
+vim.opt.whichwrap:append '<>[]hl'
 
 -- vim.cmd 'let g:netrw_liststyle = 1'

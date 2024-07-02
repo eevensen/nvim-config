@@ -1,4 +1,3 @@
--- return {}
 return {
   'nvim-tree/nvim-tree.lua',
   dependencies = 'nvim-tree/nvim-web-devicons',
@@ -13,21 +12,22 @@ return {
       view = {
         width = 35,
         relativenumber = true,
+        side = 'left',
       },
       -- change folder arrow icons
       renderer = {
         indent_markers = {
           enable = true,
         },
+        highlight_git = true,
         icons = {
           glyphs = {
             folder = {
-              -- arrow_closed = '→', -- arrow when folder is closed
-              -- arrow_open = '↓', -- arrow when folder is open
+              arrow_closed = '', -- arrow when folder is closed
+              arrow_open = '', -- arrow when folder is open
             },
           },
         },
-        group_empty = true,
       },
       -- disable window_picker for
       -- explorer to work well with
@@ -41,14 +41,9 @@ return {
       },
       filters = {
         custom = { '.DS_Store' },
-        dotfiles = true,
       },
       git = {
         ignore = false,
-        enable = true,
-      },
-      sort = {
-        sorter = 'case_sensitive',
       },
     }
 
