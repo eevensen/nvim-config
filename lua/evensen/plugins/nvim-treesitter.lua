@@ -12,9 +12,10 @@ return {
 
     -- configure treesitter
     treesitter.setup { -- enable syntax highlighting
+      disable = { 'csv' },
       highlight = {
         enable = true,
-        additional_vim_regex_highlighting = true,
+        -- additional_vim_regex_highlighting = true,
       },
       -- enable indentation
       indent = { enable = true },
@@ -48,6 +49,8 @@ return {
         'dart',
         'csv',
         'python',
+        'json',
+        'bash',
       },
       incremental_selection = {
         enable = true,

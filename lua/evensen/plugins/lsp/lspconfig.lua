@@ -1,8 +1,9 @@
-return {  { -- LSP Configuration & Plugins
+return {
+  { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
-      { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
+      { 'williamboman/mason.nvim', config = true, opts = { auto_install = true } }, -- NOTE: Must be loaded before dependantu
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
@@ -158,6 +159,12 @@ return {  { -- LSP Configuration & Plugins
         -- clangd = {},
         -- gopls = {},
         pyright = {},
+        intelephense = {},
+        phpcs = {},
+        -- phpcbf = {},
+        yamlls = {},
+        twiggy_language_server = {},
+        biome = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -211,6 +218,15 @@ return {  { -- LSP Configuration & Plugins
             require('lspconfig')[server_name].setup(server)
           end,
         },
+      }
+      -- require('lspconfig').phpcs.setup {
+      --   phpcs = 'phpcs',
+      --   phpcbf = 'phpcbf',
+      --   standard = 'Drupal',
+      -- }
+      require('lspconfig').intelephense.setup {
+        -- add files accociation for .inc files
+        filetypes = { 'php', 'inc', 'module' },
       }
     end,
   },

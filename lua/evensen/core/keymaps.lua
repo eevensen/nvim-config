@@ -40,6 +40,18 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "switch window down" })
 -- vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "switch window up" })
 
+-- scroll down and center cursor
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
+vim.keymap.set('n', '<PageUp>', '<C-u>')
+vim.keymap.set('n', '<PageDown>', '<C-d>')
+
+vim.keymap.set('n', 'n', 'nzzzv')
+vim.keymap.set('n', 'N', 'Nzzzv')
+vim.keymap.set('n', 'n', 'nzzzv')
+vim.keymap.set('n', 'n', 'nzzzv')
+
+vim.keymap.set('x', '<leader>p', '"_dP')
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
