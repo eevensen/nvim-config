@@ -1,4 +1,8 @@
 -- Highlight, edit, and navigate code
+-- Enhanced parsing and analysis of code using
+-- tree-sitter, enabling features like better
+-- syntax highlighting and advanced
+-- code manipulation.
 return {
   'nvim-treesitter/nvim-treesitter',
   event = { 'BufReadPre', 'BufNewFile' },
@@ -8,10 +12,10 @@ return {
   },
   config = function()
     -- import nvim-treesitter plugin
-    local treesitter = require 'nvim-treesitter.configs'
+    local treesitter = require('nvim-treesitter.configs')
 
     -- configure treesitter
-    treesitter.setup { -- enable syntax highlighting
+    treesitter.setup({ -- enable syntax highlighting
       disable = { 'csv' },
       highlight = {
         enable = true,
@@ -60,6 +64,6 @@ return {
           node_decremental = '<bs>',
         },
       },
-    }
+    })
   end,
 }

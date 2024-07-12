@@ -1,8 +1,10 @@
+-- Enhanced text objects for selection, manipulation,
+-- and navigation based on the tree-sitter syntax tree.
 return {
   'nvim-treesitter/nvim-treesitter-textobjects',
   lazy = true,
   config = function()
-    require('nvim-treesitter.configs').setup {
+    require('nvim-treesitter.configs').setup({
       textobjects = {
         select = {
           enable = true,
@@ -93,9 +95,9 @@ return {
           },
         },
       },
-    }
+    })
 
-    local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
+    local ts_repeat_move = require('nvim-treesitter.textobjects.repeatable_move')
 
     -- vim way: ; goes to the direction you were moving.
     vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move)

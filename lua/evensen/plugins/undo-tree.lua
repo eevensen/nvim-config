@@ -1,3 +1,6 @@
+-- Visual representation of the undo history,
+-- allowing users to navigate and
+-- manipulate undo branches.
 return {
   {
     'jiaoshijie/undotree',

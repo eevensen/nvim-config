@@ -12,7 +12,8 @@ vim.keymap.set('i', 'jk', '<Esc>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>ce', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -42,13 +43,6 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', '<PageUp>', '<C-u>')
 vim.keymap.set('n', '<PageDown>', '<C-d>')
 
-vim.keymap.set('n', 'n', 'nzzzv')
-vim.keymap.set('n', 'N', 'Nzzzv')
-vim.keymap.set('n', 'n', 'nzzzv')
-vim.keymap.set('n', 'n', 'nzzzv')
-
-vim.keymap.set('x', '<leader>p', '"_dP')
-
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -63,46 +57,20 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-vim.keymap.set('i', '<C-b>', '<ESC>^i', { desc = 'move beginning of line' })
-vim.keymap.set('i', '<C-e>', '<End>', { desc = 'move end of line' })
+-- Move around in insert mode with Ctrl + hjkl
 vim.keymap.set('i', '<C-h>', '<Left>', { desc = 'move left' })
 vim.keymap.set('i', '<C-l>', '<Right>', { desc = 'move right' })
 vim.keymap.set('i', '<C-j>', '<Down>', { desc = 'move down' })
 vim.keymap.set('i', '<C-k>', '<Up>', { desc = 'move up' })
+vim.keymap.set('i', '<C-b>', '<ESC>^i', { desc = 'move beginning of line' })
+vim.keymap.set('i', '<C-e>', '<End>', { desc = 'move end of line' })
 
 vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', { desc = 'file save' })
 vim.keymap.set('n', '<C-c>', '<cmd>%y+<CR>', { desc = 'file copy whole' })
 
--- vim.keymap.set("n", "<leader>n", "<cmd>set nu!<CR>", { desc = "toggle line number" })
--- vim.keymap.set("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
-vim.keymap.set('n', '<leader>ch', '<cmd>NvCheatsheet<CR>', { desc = 'toggle nvcheatsheet' })
-
-vim.keymap.set('n', '<leader>fm', function()
-  require('conform').format { lsp_fallback = true }
-end, { desc = 'format files' })
-
--- global lsp mappings
-vim.keymap.set('n', '<leader>ds', vim.diagnostic.setloclist, { desc = 'lsp diagnostic loclist' })
-
--- vim.keymap.set('n', '<tab>', function()
---   require('nvchad.tabufline').next()
--- end, { desc = 'buffer goto next' })
-
--- vim.keymap.set('n', '<S-tab>', function()
---   require('nvchad.tabufline').prev()
--- end, { desc = 'buffer goto prev' })
-
--- vim.keymap.set('n', '<leader>x', function()
---   require('nvchad.tabufline').close_buffer()
--- end, { desc = 'buffer close' })
-
 -- Comment
 -- vim.keymap.set('n', 'gco', 'o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>', { desc = 'Add Comment Below' })
 -- vim.keymap.set('n', 'gcO', 'O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>', { desc = 'Add Comment Above' })
-
--- nvimtree
-vim.keymap.set('n', '<C-n>', '<cmd>NvimTreeToggle<CR>', { desc = 'nvimtree toggle window' })
-vim.keymap.set('n', '<leader>ej', '<cmd>NvimTreeFocus<CR>', { desc = 'nvimtree focus window' })
 
 -- terminal
 vim.keymap.set('t', '<C-x>', '<C-\\><C-N>', { desc = 'terminal escape terminal mode' })
@@ -133,7 +101,7 @@ vim.keymap.set('t', '<C-x>', '<C-\\><C-N>', { desc = 'terminal escape terminal m
 vim.keymap.set('n', '<leader>wK', '<cmd>WhichKey <CR>', { desc = 'whichkey all keymaps' })
 
 vim.keymap.set('n', '<leader>wk', function()
-  vim.cmd('WhichKey ' .. vim.fn.input 'WhichKey: ')
+  vim.cmd('WhichKey ' .. vim.fn.input('WhichKey: '))
 end, { desc = 'whichkey query lookup' })
 
 -- blankline
@@ -202,9 +170,6 @@ vim.keymap.set('n', '<leader>K', '<cmd>norm! K<cr>', { desc = 'Keywordprg' })
 -- better indenting
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
-
--- lazy
-vim.keymap.set('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Lazy' })
 
 -- new file
 vim.keymap.set('n', '<leader>fn', '<cmd>enew<cr>', { desc = 'New File' })

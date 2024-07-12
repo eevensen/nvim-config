@@ -8,15 +8,13 @@ return {
   },
   config = function()
     -- import lspconfig plugin
-    local lspconfig = require 'lspconfig'
+    local lspconfig = require('lspconfig')
 
     -- import mason_lspconfig plugin
-    local mason_lspconfig = require 'mason-lspconfig'
+    local mason_lspconfig = require('mason-lspconfig')
 
     -- import cmp-nvim-lsp plugin
-    local cmp_nvim_lsp = require 'cmp_nvim_lsp'
-
-    local keymap = vim.keymap -- for conciseness
+    local cmp_nvim_lsp = require('cmp_nvim_lsp')
 
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -26,44 +24,46 @@ return {
         local opts = { buffer = ev.buf, silent = true }
 
         -- set keybinds
-        opts.desc = 'Show LSP references'
-        keymap.set('n', 'gR', '<cmd>Telescope lsp_references<CR>', opts) -- show definition, references
+        -- opts.desc = 'Show LSP references'
+        vim.keymap.set('n', 'gR', '<cmd>Telescope lsp_references<CR>', { desc = 'Show LSP references' }) -- show definition, references
 
         opts.desc = 'Go to declaration'
-        keymap.set('n', 'gD', vim.lsp.buf.declaration, opts) -- go to declaration
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts) -- go to declaration
 
         opts.desc = 'Show LSP definitions'
-        keymap.set('n', 'gd', '<cmd>Telescope lsp_definitions<CR>', opts) -- show lsp definitions
+        vim.keymap.set('n', 'gd', '<cmd>Telescope lsp_definitions<CR>', opts) -- show lsp definitions
 
         opts.desc = 'Show LSP implementations'
-        keymap.set('n', 'gi', '<cmd>Telescope lsp_implementations<CR>', opts) -- show lsp implementations
+        vim.keymap.set('n', 'gi', '<cmd>Telescope lsp_implementations<CR>', opts) -- show lsp implementations
 
         opts.desc = 'Show LSP type definitions'
-        keymap.set('n', 'gt', '<cmd>Telescope lsp_type_definitions<CR>', opts) -- show lsp type definitions
+        vim.keymap.set('n', 'gt', '<cmd>Telescope lsp_type_definitions<CR>', opts) -- show lsp type definitions
 
         opts.desc = 'See available code actions'
-        keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
+        vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
 
         opts.desc = 'Smart rename'
-        keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts) -- smart rename
+        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts) -- smart rename
 
         opts.desc = 'Show buffer diagnostics'
-        keymap.set('n', '<leader>D', '<cmd>Telescope diagnostics bufnr=0<CR>', opts) -- show  diagnostics for file
+        vim.keymap.set('n', '<leader>D', '<cmd>Telescope diagnostics bufnr=0<CR>', opts) -- show  diagnostics for file
 
         opts.desc = 'Show line diagnostics'
-        keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts) -- show diagnostics for line
+        vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts) -- show diagnostics for line
 
         opts.desc = 'Go to previous diagnostic'
-        keymap.set('n', '[d', vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+        vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
 
         opts.desc = 'Go to next diagnostic'
-        keymap.set('n', ']d', vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+        vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
 
         opts.desc = 'Show documentation for what is under cursor'
-        keymap.set('n', 'K', vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
         opts.desc = 'Restart LSP'
-        keymap.set('n', '<leader>rs', ':LspRestart<CR>', opts) -- mapping to restart lsp if necessary
+        vim.keymap.set('n', '<leader>rs', ':LspRestart<CR>', opts) -- mapping to restart lsp if necessary
+        -- global lsp mappings
+        vim.keymap.set('n', '<leader>ds', vim.diagnostic.setloclist, { desc = 'lsp diagnostic loclist' })
       end,
     })
 
@@ -78,12 +78,12 @@ return {
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
     end
 
-    mason_lspconfig.setup_handlers {
+    mason_lspconfig.setup_handlers({
       -- default handler for installed servers
       function(server_name)
-        lspconfig[server_name].setup {
+        lspconfig[server_name].setup({
           capabilities = capabilities,
-        }
+        })
       end,
       -- ['emmet_ls'] = function()
       --   -- configure emmet language server
@@ -94,7 +94,7 @@ return {
       -- end,
       ['lua_ls'] = function()
         -- configure lua server (with special settings)
-        lspconfig['lua_ls'].setup {
+        lspconfig['lua_ls'].setup({
           capabilities = capabilities,
           settings = {
             Lua = {
@@ -107,8 +107,67 @@ return {
               },
             },
           },
-        }
+        })
       end,
-    }
+      ['intelephense'] = function()
+        -- configure intelephense language server
+        lspconfig['intelephense'].setup({
+          capabilities = capabilities,
+          root_dir = lspconfig.util.root_pattern('composer.json', 'composer.lock', '.git', 'vendor', 'phpcs.xml'),
+          files = {
+            exclude = { '**/.git/**', '**/node_modules/**', '**/vendor/**' },
+            maxSize = 1000000,
+          },
+          settings = {
+            stubs = {
+              'bcmath',
+              'bz2',
+              'Core',
+              'curl',
+              'date',
+              'dom',
+              'fileinfo',
+              'filter',
+              'gd',
+              'gettext',
+              'hash',
+              'iconv',
+              'imap',
+              'intl',
+              'json',
+              'libxml',
+              'mbstring',
+              'mcrypt',
+              'mysql',
+              'mysqli',
+              'password',
+              'pcntl',
+              'pcre',
+              'PDO',
+              'pdo_mysql',
+              'Phar',
+              'readline',
+              'regex',
+              'session',
+              'SimpleXML',
+              'sockets',
+              'sodium',
+              'standard',
+              'superglobals',
+              'tokenizer',
+              'xml',
+              'xdebug',
+              'xmlreader',
+              'xmlwriter',
+              'yaml',
+              'zip',
+              'zlib',
+              'genesis-stubs',
+              'polylang-stubs',
+            },
+          },
+        })
+      end,
+    })
   end,
 }
