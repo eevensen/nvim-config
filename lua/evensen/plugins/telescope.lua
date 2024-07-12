@@ -101,6 +101,7 @@ return {
       --   }
       -- end, { desc = '[S]earch [/] in Open Files' })
       -- builtin.find_files { path_display = { 'truncate' } }
+
       -- Shortcut for searching your Neovim configuration files
       vim.keymap.set('n', '<leader>fn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }

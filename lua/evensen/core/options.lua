@@ -26,10 +26,12 @@ vim.o.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
 -- vim.opt.cursorline = true
+
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
+-- vim.o.clipboard = 'unnamedplus'
+vim.opt.clipboard = vim.env.SSH_TTY and '' or 'unnamedplus' -- Sync with system clipboard
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -102,4 +104,72 @@ vim.opt.shortmess:append 'sI'
 -- when cursor reaches end/beginning of line
 vim.opt.whichwrap:append '<>[]hl'
 
--- vim.cmd 'let g:netrw_liststyle = 1'
+vim.cmd 'let g:netrw_liststyle = 3'
+
+-- Set filetype to `bigfile` for files larger than 1.5 MB
+-- Only vim syntax will be enabled (with the correct filetype)
+-- LSP, treesitter and other ft plugins will be disabled.
+-- mini.animate will also be disabled.
+vim.g.bigfile_size = 1024 * 1024 * 1.5 -- 1.5 MB
+
+-- Show the current document symbols location from Trouble in lualine
+vim.g.trouble_lualine = true
+
+vim.opt.completeopt = 'menu,menuone,noselect'
+vim.opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
+vim.opt.confirm = true -- Confirm to save changes before exiting modified buffer
+vim.opt.cursorline = true -- Enable highlighting of the current line
+vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.fillchars = {
+  foldopen = '',
+  foldclose = '',
+  fold = ' ',
+  foldsep = ' ',
+  diff = '╱',
+  eob = ' ',
+}
+vim.opt.foldlevel = 99
+-- vim.opt.formatexpr = "v:lua.require'lazyvim.util'.format.formatexpr()"
+vim.opt.formatoptions = 'jcroqlnt' -- tcqj
+vim.opt.grepformat = '%f:%l:%c:%m'
+vim.opt.grepprg = 'rg --vimgrep'
+vim.opt.ignorecase = true -- Ignore case
+vim.opt.inccommand = 'nosplit' -- preview incremental substitute
+vim.opt.jumpoptions = 'view'
+vim.opt.laststatus = 3 -- global statusline
+vim.opt.linebreak = true -- Wrap lines at convenient points
+vim.opt.list = true -- Show some invisible characters (tabs...
+vim.opt.mouse = 'a' -- Enable mouse mode
+vim.opt.number = true -- Print line number
+vim.opt.pumblend = 10 -- Popup blend
+vim.opt.pumheight = 10 -- Maximum number of entries in a popup
+vim.opt.relativenumber = true -- Relative line numbers
+vim.opt.scrolloff = 4 -- Lines of context
+vim.opt.sessionoptions = { 'buffers', 'curdir', 'tabpages', 'winsize', 'help', 'globals', 'skiprtp', 'folds' }
+vim.opt.shiftround = true -- Round indent
+vim.opt.shiftwidth = 2 -- Size of an indent
+vim.opt.shortmess:append { W = true, I = true, c = true, C = true }
+vim.opt.showmode = false -- Dont show mode since we have a statusline
+vim.opt.sidescrolloff = 8 -- Columns of context
+vim.opt.signcolumn = 'yes' -- Always show the signcolumn, otherwise it would shift the text each time
+vim.opt.smartcase = true -- Don't ignore case with capitals
+vim.opt.smartindent = true -- Insert indents automatically
+vim.opt.spelllang = { 'en' }
+vim.opt.spelloptions:append 'noplainbuffer'
+vim.opt.splitbelow = true -- Put new windows below current
+vim.opt.splitkeep = 'screen'
+vim.opt.splitright = true -- Put new windows right of current
+-- vim.opt.statuscolumn = [[%!v:lua.require'lazyvim.util'.ui.statuscolumn()]]
+vim.opt.tabstop = 2 -- Number of spaces tabs count for
+vim.opt.termguicolors = true -- True color support
+vim.opt.timeoutlen = vim.g.vscode and 1000 or 300 -- Lower than default (1000) to quickly trigger which-key
+vim.opt.undofile = true
+vim.opt.undolevels = 10000
+vim.opt.updatetime = 200 -- Save swap file and trigger CursorHold
+vim.opt.virtualedit = 'block' -- Allow cursor to move where there is no text in visual block mode
+vim.opt.wildmode = 'longest:full,full' -- Command-line completion mode
+vim.opt.winminwidth = 5 -- Minimum window width
+vim.opt.wrap = false -- Disable line wrap
+
+-- Fix markdown indentation settings
+vim.g.markdown_recommended_style = 0
