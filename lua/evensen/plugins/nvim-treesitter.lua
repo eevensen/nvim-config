@@ -1,8 +1,7 @@
 -- Highlight, edit, and navigate code
--- Enhanced parsing and analysis of code using
--- tree-sitter, enabling features like better
--- syntax highlighting and advanced
--- code manipulation.
+-- Enhanced parsing and analysis of code using tree-sitter,
+-- enabling features like better syntax highlighting
+-- and advanced code manipulation.
 return {
   'nvim-treesitter/nvim-treesitter',
   event = { 'BufReadPre', 'BufNewFile' },
@@ -16,17 +15,30 @@ return {
 
     -- configure treesitter
     treesitter.setup({ -- enable syntax highlighting
+      -- Install parsers synchronously (only applied to `ensure_installed`)
+      sync_install = false,
+
+      -- Automatically install missing parsers when entering buffer
+      -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+      auto_install = true,
+
+      -- List of parsers to ignore installing (or "all")
+      ignore_install = {},
+
+      modules = {},
       disable = { 'csv' },
       highlight = {
         enable = true,
         -- additional_vim_regex_highlighting = true,
       },
+
       -- enable indentation
       indent = { enable = true },
       -- enable autotagging (w/ nvim-ts-autotag plugin)
       autotag = {
         enable = true,
       },
+
       -- ensure these language parsers are installed
       ensure_installed = {
         'json',
@@ -36,10 +48,8 @@ return {
         'yaml',
         'html',
         'css',
-        -- 'prisma',
         'markdown',
         'markdown_inline',
-        -- 'svelte',
         -- 'graphql',
         'lua',
         'vim',
@@ -47,10 +57,9 @@ return {
         'gitignore',
         'query',
         'vimdoc',
-        -- 'c',
+        'c',
         'php',
         'dart',
-        -- 'csv',
         'python',
         'json',
         'bash',
