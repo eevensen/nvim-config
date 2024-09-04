@@ -79,18 +79,19 @@ return {
 
       -- See `:help telescope.builtin`
       local builtin = require('telescope.builtin')
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[S]earch [R]ecent Files ' })
-      vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = '[S]earch repeat/resume ("." for repeat)' })
-      vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-      vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-      vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-      vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-      vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>fp', builtin.registers, { desc = '[S]earch [P]aste registers' })
-      vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = '[S]earch [Q]uickfix list' })
+      vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Find Files' })
+      vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = 'Find Recent files ' })
+      vim.keymap.set('n', '<leader>f.', builtin.resume, { desc = 'Find Resume/repeat ("." for repeat)' })
+      vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Find by Grep' })
+      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = 'Find Buffers' })
+      vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Find Buffers' })
+      vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = 'Find Select Telescope' })
+      vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = 'Find current [W]ord' })
+      vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'Find Diagnostics' })
+      vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Find Help' })
+      vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Find Keymaps' })
+      vim.keymap.set('n', '<leader>fp', builtin.registers, { desc = 'Find Paste register' })
+      vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = 'Find Quickfix list' })
 
       -- TODO: I want keymaps for `find_files` and `live_grep` that searches all files,
       -- including files in gitignore and hidden files (no-ignore-vcs, hidden).
@@ -111,12 +112,12 @@ return {
           grep_open_files = true,
           prompt_title = 'Live Grep in Open Files',
         })
-      end, { desc = '[S]earch [/] in Open Files' })
+      end, { desc = '[F]ind [/] in Open Files' })
 
       -- Shortcut for searching your Neovim configuration files
       vim.keymap.set('n', '<leader>fn', function()
         builtin.find_files({ cwd = vim.fn.stdpath('config') })
-      end, { desc = '[S]earch [N]eovim files' })
+      end, { desc = '[F]ind [N]eovim files' })
     end,
   },
 }

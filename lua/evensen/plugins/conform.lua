@@ -9,11 +9,11 @@ return {
 
     conform.setup({
       formatters_by_ft = {
-        javascript = { { 'prettierd', 'prettier' } },
-        typescript = { { 'prettierd', 'prettier' } },
-        javascriptreact = { { 'prettierd', 'prettier' } },
-        typescriptreact = { { 'prettierd', 'prettier' } },
-        markdown = { { 'prettierd', 'prettier' } },
+        javascript = { 'prettier' },
+        typescript = { 'prettier' },
+        javascriptreact = { 'prettier' },
+        typescriptreact = { 'prettier' },
+        markdown = { 'prettier' },
         css = { 'prettier' },
         html = { 'prettier' },
         json = { 'prettier' },
@@ -25,12 +25,19 @@ return {
       format_on_save = {
         lsp_fallback = true,
         async = false,
-        timeout_ms = 1000,
+        timeout_ms = 500,
       },
     })
 
     -- Format current file
-    vim.keymap.set({ 'n', 'v' }, '<leader>fm', function()
+    vim.keymap.set({ 'n', 'v' }, '<leader>bf', function()
+      conform.format({
+        lsp_fallback = true,
+        async = false,
+        timeout_ms = 1000,
+      })
+    end, { desc = '[F]or[m]at Current Buffer' })
+    vim.keymap.set({ 'n', 'v' }, '<leader>cf', function()
       conform.format({
         lsp_fallback = true,
         async = false,

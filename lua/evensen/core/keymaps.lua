@@ -12,8 +12,8 @@ vim.keymap.set({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and 
 -- vim.keymap.set('n', '<leader>ur', '<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>', { desc = 'Redraw / Clear hlsearch / Diff Update' })
 
 -- increment/decrement numbers
-vim.keymap.set('n', '<leader>+', '<C-a>', { desc = 'Increment number' }) -- increment
-vim.keymap.set('n', '<leader>-', '<C-x>', { desc = 'Decrement number' }) -- decrement
+-- vim.keymap.set('n', '<leader>+', '<C-a>', { desc = 'Increment number' }) -- increment
+-- vim.keymap.set('n', '<leader>-', '<C-x>', { desc = 'Decrement number' }) -- decrement
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 -- TODO: Is this necessary?
@@ -28,18 +28,21 @@ vim.keymap.set('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev Se
 vim.keymap.set('i', 'jk', '<Esc>')
 
 -- Insert new line below or above with o and O without leaving normal mode
-vim.keymap.set('n', '<leader>o', 'o<Esc>', { noremap = true })
-vim.keymap.set('n', '<leader>O', 'O<Esc>', { noremap = true })
+vim.keymap.set('n', '<leader>o', 'o<Esc>', { desc = 'Insert new line below (normal mode)', noremap = true })
+vim.keymap.set('n', '<leader>O', 'O<Esc>', { desc = 'Insert new line above (normal mode)', noremap = true })
+
+-- In visual and normal mode, cut selected text and paste it before the cursor.
+vim.keymap.set({ 'x', 'n' }, '<leader>p', [["_dP]], { desc = 'Cut and paste before cursor' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+-- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 --keywordprg
--- FIX: How do I use this? What is it?
-vim.keymap.set('n', '<leader>K', '<cmd>norm! K<cr>', { desc = 'Keywordprg' })
+-- TODO: What is it?
+-- vim.keymap.set('n', '<leader>K', '<cmd>norm! K<cr>', { desc = 'Keywordprg' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -100,7 +103,7 @@ vim.keymap.set({ 'i', 'x', 'n', 's' }, '<C-x>', '<cmd>q<cr><esc>', { desc = 'Exi
 -- quit
 -- TODO: Similar to <C-s>, what is the best keymap for save and quit?
 -- Or, what is the best keymap for quit without save with a "pop-up"?
-vim.keymap.set('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit All' })
+-- vim.keymap.set('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit All' })
 
 -- Resize window using <ctrl> arrow keys
 vim.keymap.set('n', '<C-Up>', '<cmd>resize +2<cr>', { desc = 'Increase Window Height' })
@@ -126,8 +129,11 @@ vim.keymap.set('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 vim.keymap.set('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 vim.keymap.set('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 
+vim.keymap.set('n', 'bp', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
+vim.keymap.set('n', 'bn', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
+
 vim.keymap.set('n', '<leader>bb', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
-vim.keymap.set('n', '<leader>`', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
+-- vim.keymap.set('n', '<leader>`', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
 vim.keymap.set('n', '<leader>bD', '<cmd>:bd<cr>', { desc = 'Delete Buffer and Window' })
 
 -- window management
@@ -153,14 +159,14 @@ vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
 
 -- Quickfix
-vim.keymap.set('n', '[q', vim.cmd.cprev, { desc = 'Previous Quickfix' })
-vim.keymap.set('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
+-- vim.keymap.set('n', '[q', vim.cmd.cprev, { desc = 'Previous Quickfix' })
+-- vim.keymap.set('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
 
 -- new file
 vim.keymap.set('n', '<leader>fn', '<cmd>enew<cr>', { desc = 'New File' })
 
-vim.keymap.set('n', '<leader>xl', '<cmd>lopen<cr>', { desc = 'Location List' })
-vim.keymap.set('n', '<leader>xq', '<cmd>copen<cr>', { desc = 'Quickfix List' })
+-- vim.keymap.set('n', '<leader>xl', '<cmd>lopen<cr>', { desc = 'Location List' })
+-- vim.keymap.set('n', '<leader>xq', '<cmd>copen<cr>', { desc = 'Quickfix List' })
 
 -- toggle options
 -- TODO: What are your recommendations on Auto Format (Global/Buffer)
