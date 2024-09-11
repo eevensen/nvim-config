@@ -36,13 +36,13 @@ return {
         async = false,
         timeout_ms = 1000,
       })
-    end, { desc = '[F]or[m]at Current Buffer' })
+    end, { desc = 'Buffer Format' })
     vim.keymap.set({ 'n', 'v' }, '<leader>cf', function()
       conform.format({
         lsp_fallback = true,
         async = false,
         timeout_ms = 1000,
       })
-    end, { desc = '[F]or[m]at Current Buffer' })
+    end, { desc = 'Code Format current buffer' })
   end,
 }

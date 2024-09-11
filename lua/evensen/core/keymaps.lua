@@ -41,7 +41,7 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagn
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 --keywordprg
--- TODO: What is it?
+-- TODO: What is it and how to use it?
 -- vim.keymap.set('n', '<leader>K', '<cmd>norm! K<cr>', { desc = 'Keywordprg' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier

@@ -93,7 +93,7 @@ return {
       vim.keymap.set('n', '<leader>fp', builtin.registers, { desc = 'Find Paste register' })
       vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = 'Find Quickfix list' })
 
-      -- TODO: I want keymaps for `find_files` and `live_grep` that searches all files,
+      -- TODO: I want keymaps for `find_files` and `live_grep` that searches all files in root folder,
       -- including files in gitignore and hidden files (no-ignore-vcs, hidden).
 
       -- Slightly advanced example of overriding default behavior and theme

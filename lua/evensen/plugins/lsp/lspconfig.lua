@@ -3,6 +3,8 @@ return {
   event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     'hrsh7th/cmp-nvim-lsp',
+    'williamboman/mason-lspconfig.nvim',
+    'williamboman/mason.nvim',
     { 'antosha417/nvim-lsp-file-operations', config = true },
     { 'folke/neodev.nvim', opts = {} },
   },
@@ -12,6 +14,7 @@ return {
 
     -- import mason_lspconfig plugin
     local mason_lspconfig = require('mason-lspconfig')
+    mason_lspconfig.setup()
 
     -- import cmp-nvim-lsp plugin
     local cmp_nvim_lsp = require('cmp_nvim_lsp')
@@ -25,13 +28,13 @@ return {
 
         -- set keybinds
         -- opts.desc = 'Show LSP references'
-        -- vim.keymap.set('n', 'gR', '<cmd>Telescope lsp_references<CR>', { desc = 'Show LSP references' }) -- show definition, references
+        vim.keymap.set('n', 'gR', '<cmd>Telescope lsp_references<CR>', { desc = 'Show LSP references' }) -- show definition, references
 
         opts.desc = 'Go to declaration'
-        -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts) -- go to declaration
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts) -- go to declaration
 
         opts.desc = 'Show LSP definitions'
-        -- vim.keymap.set('n', 'gd', '<cmd>Telescope lsp_definitions<CR>', opts) -- show lsp definitions
+        vim.keymap.set('n', 'gd', '<cmd>Telescope lsp_definitions<CR>', opts) -- show lsp definitions
 
         opts.desc = 'Show LSP implementations'
         -- vim.keymap.set('n', 'gi', '<cmd>Telescope lsp_implementations<CR>', opts) -- show lsp implementations

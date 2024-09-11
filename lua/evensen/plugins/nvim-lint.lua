@@ -26,9 +26,9 @@ return {
 
     vim.keymap.set('n', '<leader>cl', function()
       lint.try_lint()
-    end, { desc = 'Trigger linting for current buffer/file' })
+    end, { desc = 'Code Linting - Trigger for current buffer' })
     vim.keymap.set('n', '<leader>bl', function()
       lint.try_lint()
-    end, { desc = 'Trigger linting for current buffer/file' })
+    end, { desc = 'Buffer Linting - Trigger for current buffer' })
   end,
 }

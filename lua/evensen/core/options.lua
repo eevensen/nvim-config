@@ -23,6 +23,8 @@ vim.opt.relativenumber = true
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
+-- TODO: I want the filename on top of the buffer
+
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 vim.opt.cursorline = true
@@ -83,6 +85,7 @@ vim.opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
 vim.opt.shiftwidth = 2 -- 2 spaces for indent width
 vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.autoindent = true -- copy indent from current line when starting new one
+vim.opt.smartindent = true -- smarter indenting
 
 vim.opt.wrap = false -- Disable line wrap
 
