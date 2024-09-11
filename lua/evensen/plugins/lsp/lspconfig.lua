@@ -5,6 +5,7 @@ return {
     'hrsh7th/cmp-nvim-lsp',
     'williamboman/mason-lspconfig.nvim',
     'williamboman/mason.nvim',
+    'b0o/schemastore.nvim',
     { 'antosha417/nvim-lsp-file-operations', config = true },
     { 'folke/neodev.nvim', opts = {} },
   },
@@ -13,7 +14,6 @@ return {
     local mason_lspconfig = require('mason-lspconfig')
     mason_lspconfig.setup()
     local cmp_nvim_lsp = require('cmp_nvim_lsp')
-    local servers = require('evensen.plugins.lsp.servers')
 
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -78,13 +78,182 @@ return {
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
     end
 
+    local servers = {
+      ansiblels = {},
+      clangd = {
+        cmd = {
+          'clangd',
+          '--offset-encoding=utf-16',
+          '--enable-config',
+        },
+        root_dir = function(fname)
+          local root_files = {
+            '.clangd',
+            '.clang-tidy',
+            '.clang-format',
+            'compile_commands.json',
+            'compile_flags.txt',
+            'configure.ac', -- AutoTools
+          }
+          return require('lspconfig.util').root_pattern(root_files)(fname) or vim.fn.getcwd()
+        end,
+      },
+      rust_analyzer = {},
+      terraformls = {},
+      denols = {
+        autostart = false,
+        root_dir = function(fname)
+          local root_files = { 'deno.json', 'deno.jsonc' }
+          return require('lspconfig.util').root_pattern(root_files)(fname) or vim.fn.getcwd()
+        end,
+      },
+      bashls = {},
+      dockerls = {},
+      helm_ls = {},
+      svelte = {},
+      tailwindcss = {
+        autostart = false,
+      },
+      html = {},
+      emmet_language_server = {},
+      pyright = {
+        settings = {
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              diagnosticMode = 'workspace',
+              useLibraryCodeForTypes = true,
+            },
+          },
+        },
+      },
+      intelephense = {
+        root_dir = function(fname)
+          local root_files = { 'composer.json', 'composer.lock', '.git', 'phpunit.xml', '.php_cs' }
+          return require('lspconfig.util').root_pattern(root_files)(fname) or vim.fn.getcwd()
+        end,
+        settings = {
+        -- stylua: ignore
+        stubs = {
+          'bcmath', 'bz2', 'Core', 'curl', 'date', 'dom', 'fileinfo', 'filter', 'gd', 'gettext', 'hash', 'iconv', 'imap',
+          'intl', 'json', 'libxml', 'mbstring', 'mcrypt', 'mysql',
+          'mysqli', 'password', 'pcntl', 'pcre', 'PDO', 'pdo_mysql', 'Phar', 'readline', 'regex', 'session', 'SimpleXML',
+          'sockets', 'sodium', 'standard', 'superglobals', 'tokenizer', 'xml', 'xdebug', 'xmlreader',
+          'xmlwriter', 'yaml', 'zip', 'zlib', 'genesis-stubs', 'polylang-stubs',
+        },
+          files = {
+            maxSize = 5000000,
+          },
+        },
+      },
+      jsonls = {
+        settings = {
+          json = {
+            schemas = require('schemastore').json.schemas(),
+            validate = { enable = true },
+          },
+          redhat = {
+            telemetry = {
+              enabled = false,
+            },
+          },
+        },
+      },
+      yamlls = {
+        flags = {
+          debounce_text_changes = 150,
+        },
+        settings = {
+          redhat = { telemetry = { enabled = false } },
+          yaml = {
+            format = { enable = true },
+            schemaStore = {
+              enable = false,
+              url = '',
+            },
+            schemas = require('schemastore').yaml.schemas(),
+            completion = true,
+            hover = true,
+          },
+        },
+      },
+      quick_lint_js = {},
+      templ = {},
+      gopls = {
+        settings = {
+          gopls = {
+            gofumpt = true,
+            codelenses = {
+              gc_details = false,
+              generate = true,
+              regenerate_cgo = true,
+              run_govulncheck = true,
+              test = true,
+              tidy = true,
+              upgrade_dependency = true,
+              vendor = true,
+            },
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+            analyses = {
+              fieldalignment = true,
+              nilness = true,
+              unusedparams = true,
+              unusedwrite = true,
+              useany = true,
+            },
+            usePlaceholders = false,
+            completeUnimported = true,
+            staticcheck = true,
+            directoryFilters = { '-.git', '-.vscode', '-.idea', '-.vscode-test', '-node_modules' },
+            semanticTokens = true,
+          },
+        },
+      },
+      lua_ls = {
+        settings = {
+          Lua = {
+            runtime = {
+              version = 'LuaJIT',
+              path = vim.split(package.path, ';'),
+            },
+            hint = {
+              enable = false,
+            },
+            diagnostics = {
+              globals = { 'vim', 'C' },
+            },
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                vim.fn.expand('$VIMRUNTIME/lua'),
+                vim.fn.stdpath('config') .. '/lua',
+              },
+              maxPreload = 2000,
+              preloadFileSize = 1000,
+            },
+            telemetry = { enable = false },
+            completion = { callSnippet = 'Insert' },
+          },
+        },
+      },
+      jdtls = {},
+    }
+
     mason_lspconfig.setup_handlers({
       function(server_name)
-        local server = servers.getServerConfig(server_name)
+        local server = servers[server_name] or {}
         if server.enabled == false then
           return
         end
-        servers.setCapabilities(server_name, capabilities)
+        server.compabilities = capabilities
         lspconfig[server_name].setup(server)
       end,
     })
