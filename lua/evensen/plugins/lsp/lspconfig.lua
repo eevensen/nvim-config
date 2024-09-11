@@ -9,15 +9,11 @@ return {
     { 'folke/neodev.nvim', opts = {} },
   },
   config = function()
-    -- import lspconfig plugin
     local lspconfig = require('lspconfig')
-
-    -- import mason_lspconfig plugin
     local mason_lspconfig = require('mason-lspconfig')
     mason_lspconfig.setup()
-
-    -- import cmp-nvim-lsp plugin
     local cmp_nvim_lsp = require('cmp_nvim_lsp')
+    local servers = require('evensen.plugins.lsp.servers')
 
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -83,94 +79,13 @@ return {
     end
 
     mason_lspconfig.setup_handlers({
-      -- default handler for installed servers
       function(server_name)
-        lspconfig[server_name].setup({
-          capabilities = capabilities,
-        })
-      end,
-      -- ['emmet_ls'] = function()
-      --   -- configure emmet language server
-      --   lspconfig['emmet_ls'].setup {
-      --     capabilities = capabilities,
-      --     filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
-      --   }
-      -- end,
-      ['lua_ls'] = function()
-        -- configure lua server (with special settings)
-        lspconfig['lua_ls'].setup({
-          capabilities = capabilities,
-          settings = {
-            Lua = {
-              -- make the language server recognize "vim" global
-              diagnostics = {
-                globals = { 'vim' },
-              },
-              completion = {
-                callSnippet = 'Replace',
-              },
-            },
-          },
-        })
-      end,
-      ['intelephense'] = function()
-        -- configure intelephense language server
-        lspconfig['intelephense'].setup({
-          capabilities = capabilities,
-          root_dir = lspconfig.util.root_pattern('composer.json', 'composer.lock', '.git', 'vendor', 'phpcs.xml'),
-          files = {
-            exclude = { '**/.git/**', '**/node_modules/**', '**/vendor/**' },
-            maxSize = 1000000,
-          },
-          settings = {
-            stubs = {
-              'bcmath',
-              'bz2',
-              'Core',
-              'curl',
-              'date',
-              'dom',
-              'fileinfo',
-              'filter',
-              'gd',
-              'gettext',
-              'hash',
-              'iconv',
-              'imap',
-              'intl',
-              'json',
-              'libxml',
-              'mbstring',
-              'mcrypt',
-              'mysql',
-              'mysqli',
-              'password',
-              'pcntl',
-              'pcre',
-              'PDO',
-              'pdo_mysql',
-              'Phar',
-              'readline',
-              'regex',
-              'session',
-              'SimpleXML',
-              'sockets',
-              'sodium',
-              'standard',
-              'superglobals',
-              'tokenizer',
-              'xml',
-              'xdebug',
-              'xmlreader',
-              'xmlwriter',
-              'yaml',
-              'zip',
-              'zlib',
-              'genesis-stubs',
-              'polylang-stubs',
-            },
-          },
-        })
+        local server = servers.getServerConfig(server_name)
+        if server.enabled == false then
+          return
+        end
+        servers.setCapabilities(server_name, capabilities)
+        lspconfig[server_name].setup(server)
       end,
     })
   end,

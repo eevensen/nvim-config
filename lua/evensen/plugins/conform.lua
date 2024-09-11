@@ -28,6 +28,11 @@ return {
           return
         end
 
+        local bufname = vim.api.nvim_buf_get_name(bufnr)
+        if bufname:match('/node_modules/') or bufname:match('/vendor/') then
+          return
+        end
+
         return {
           lsp_fallback = true,
           async = false,
@@ -57,18 +62,10 @@ return {
 
     -- Format current file
     vim.keymap.set({ 'n', 'v' }, '<leader>bf', function()
-      conform.format({
-        lsp_fallback = true,
-        async = false,
-        timeout_ms = 1000,
-      })
+      conform.format()
     end, { desc = 'Buffer Format' })
     vim.keymap.set({ 'n', 'v' }, '<leader>cf', function()
-      conform.format({
-        lsp_fallback = true,
-        async = false,
-        timeout_ms = 1000,
-      })
+      conform.format()
     end, { desc = 'Code Format current buffer' })
   end,
 }
