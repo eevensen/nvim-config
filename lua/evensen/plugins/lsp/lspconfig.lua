@@ -12,8 +12,8 @@ return {
   config = function()
     local lspconfig = require('lspconfig')
     local mason_lspconfig = require('mason-lspconfig')
-    mason_lspconfig.setup()
     local cmp_nvim_lsp = require('cmp_nvim_lsp')
+    local methods = vim.lsp.protocol.Methods
 
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -65,6 +65,23 @@ return {
         -- global lsp mappings
         -- vim.keymap.set('n', '<leader>ds', vim.diagnostic.setloclist, { desc = 'lsp diagnostic loclist' })
       end,
+    })
+
+    -- hover
+    vim.lsp.handlers[methods.textDocument_hover] = vim.lsp.with(vim.lsp.handlers.hover, {
+      width = 80,
+      focusable = false,
+    })
+
+    -- publishDiagnostics
+    vim.lsp.handlers[methods.textDocument_publishDiagnostics] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+      underline = true,
+      virtual_text = {
+        prefix = '',
+        spacing = 8,
+      },
+      signs = true,
+      update_in_insert = false,
     })
 
     -- used to enable autocompletion (assign to every lsp server config)
@@ -246,6 +263,10 @@ return {
       },
       jdtls = {},
     }
+
+    mason_lspconfig.setup({
+      ensure_installed = vim.tbl_keys(servers),
+    })
 
     mason_lspconfig.setup_handlers({
       function(server_name)
