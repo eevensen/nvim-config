@@ -70,9 +70,9 @@ vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Preview substitutions live, as you type!
--- TODO: What is the difference?
-vim.opt.inccommand = 'nosplit' -- preview incremental substitute
--- vim.opt.inccommand = 'split'
+-- NOTE: What is the difference?
+-- vim.opt.inccommand = 'nosplit' -- preview incremental substitute
+vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true

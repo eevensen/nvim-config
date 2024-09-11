@@ -4,7 +4,7 @@ return {
   'nvim-treesitter/nvim-treesitter-textobjects',
   lazy = true,
   config = function()
-    -- TODO: is this the best way to configre treesitter textobjects?
+    -- NOTE: is this the best way to configre treesitter textobjects?
     require('nvim-treesitter.configs').setup({
       textobjects = {
         select = {

@@ -41,7 +41,7 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagn
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 --keywordprg
--- TODO: What is it and how to use it?
+-- NOTE: What is it and how to use it?
 -- vim.keymap.set('n', '<leader>K', '<cmd>norm! K<cr>', { desc = 'Keywordprg' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
@@ -61,7 +61,6 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- better up/down
--- TODO: Why is this better?
 vim.keymap.set({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { desc = 'Down', expr = true, silent = true })
 vim.keymap.set({ 'n', 'x' }, '<Down>', "v:count == 0 ? 'gj' : 'j'", { desc = 'Down', expr = true, silent = true })
 vim.keymap.set({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { desc = 'Up', expr = true, silent = true })
@@ -112,17 +111,10 @@ vim.keymap.set('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Decreas
 vim.keymap.set('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Increase Window Width' })
 
 -- Move Lines
--- FIXME: This is not working on MacOS.
--- Maybe some conflict between Option key on Mac vs <A> key (ALT key)
-vim.keymap.set('n', '<A-j>', '<cmd>m .+1<cr>==', { desc = 'Move Down' })
-vim.keymap.set('n', '<A-k>', '<cmd>m .-2<cr>==', { desc = 'Move Up' })
-vim.keymap.set('i', '<A-j>', '<esc><cmd>m .+1<cr>==gi', { desc = 'Move Down' })
-vim.keymap.set('i', '<A-k>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move Up' })
-vim.keymap.set('v', '<A-j>', ":m '>+1<cr>gv=gv", { desc = 'Move Down' })
-vim.keymap.set('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move Up' })
-
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = '[J] Move selection down' })
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = '[K] Move selection up' })
 -- buffers
--- TODO: I need to get better at moving between buffers. Any advice?
+-- NOTE: I need to get better at moving between buffers. Any advice?
 vim.keymap.set('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 vim.keymap.set('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 
@@ -173,8 +165,7 @@ vim.keymap.set('n', '<leader>fn', '<cmd>enew<cr>', { desc = 'New File' })
 -- vim.keymap.set("n", "<leader>uf", function() LazyVim.format.toggle() end, { desc = "Toggle Auto Format (Global)" })
 -- vim.keymap.set("n", "<leader>uF", function() LazyVim.format.toggle(true) end, { desc = "Toggle Auto Format (Buffer)" })
 
--- FIXME: Can I toogle relative and line numbers without LazyVim.toggle?
--- vim.keymap.set("n", "<leader>uL", function() LazyVim.toggle("relativenumber") end, { desc = "Toggle Relative Line Numbers" })
+vim.keymap.set('n', '<leader>uL', ':set relativenumber!<CR>', { desc = 'Toggle Relative Line Numbers' })
 -- vim.keymap.set("n", "<leader>ul", function() LazyVim.toggle.number() end, { desc = "Toggle Line Numbers" })
 
 -- vim.keymap.set("n", "<leader>us", function() LazyVim.toggle("spell") end, { desc = "Toggle Spelling" })
