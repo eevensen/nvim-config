@@ -50,6 +50,17 @@ return {
       -- See `:help telescope` and `:help telescope.setup()`
 
       local actions = require('telescope.actions')
+      local find_files_no_ignore = function()
+        local action_state = require('telescope.actions.state')
+        local line = action_state.get_current_line()
+        require('telescope.builtin').find_files({ no_ignore = true, default_text = line })
+      end
+
+      local find_files_with_hidden = function()
+        local action_state = require('telescope.actions.state')
+        local line = action_state.get_current_line()
+        require('telescope.builtin').find_files({ hidden = true, no_ignore = true, default_text = line })
+      end
 
       require('telescope').setup({
         -- You can put your default mappings / updates / etc. in here
@@ -61,6 +72,8 @@ return {
             i = {
               ['<c-enter>'] = 'to_fuzzy_refine',
               ['<c-q'] = actions.send_selected_to_qflist + actions.open_qflist,
+              ['<a-i>'] = find_files_no_ignore,
+              ['<a-h>'] = find_files_with_hidden,
             },
           },
           -- },
