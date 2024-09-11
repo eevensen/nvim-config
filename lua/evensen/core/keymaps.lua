@@ -100,9 +100,20 @@ vim.keymap.set({ 'i', 'x', 'n', 's' }, '<C-x>', '<cmd>q<cr><esc>', { desc = 'Exi
 -- vim.keymap.set('n', '<C-c>', '<cmd>%y+<CR>', { desc = 'file copy whole' })
 
 -- quit
--- TODO: Similar to <C-s>, what is the best keymap for save and quit?
--- Or, what is the best keymap for quit without save with a "pop-up"?
--- vim.keymap.set('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit All' })
+vim.keymap.set('n', '<leader>qq', function()
+  local modified_buffers = vim.fn.getbufinfo({ bufmodified = 1 })
+  if next(modified_buffers) ~= nil then
+    local choice = vim.fn.input('There are unsaved changes. Save before exit? (y/n): ')
+    if choice == 'y' then
+      vim.cmd('wa')
+      vim.cmd('qa')
+    else
+      vim.cmd('qa!')
+    end
+  else
+    vim.cmd('qa')
+  end
+end, { desc = 'Quit All' })
 
 -- Resize window using <ctrl> arrow keys
 vim.keymap.set('n', '<C-Up>', '<cmd>resize +2<cr>', { desc = 'Increase Window Height' })
@@ -159,11 +170,6 @@ vim.keymap.set('n', '<leader>fn', '<cmd>enew<cr>', { desc = 'New File' })
 
 -- vim.keymap.set('n', '<leader>xl', '<cmd>lopen<cr>', { desc = 'Location List' })
 -- vim.keymap.set('n', '<leader>xq', '<cmd>copen<cr>', { desc = 'Quickfix List' })
-
--- toggle options
--- TODO: What are your recommendations on Auto Format (Global/Buffer)
--- vim.keymap.set("n", "<leader>uf", function() LazyVim.format.toggle() end, { desc = "Toggle Auto Format (Global)" })
--- vim.keymap.set("n", "<leader>uF", function() LazyVim.format.toggle(true) end, { desc = "Toggle Auto Format (Buffer)" })
 
 vim.keymap.set('n', '<leader>uL', ':set relativenumber!<CR>', { desc = 'Toggle Relative Line Numbers' })
 -- vim.keymap.set("n", "<leader>ul", function() LazyVim.toggle.number() end, { desc = "Toggle Line Numbers" })
