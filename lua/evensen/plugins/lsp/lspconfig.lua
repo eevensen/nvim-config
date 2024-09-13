@@ -67,12 +67,6 @@ return {
       end,
     })
 
-    -- hover
-    vim.lsp.handlers[methods.textDocument_hover] = vim.lsp.with(vim.lsp.handlers.hover, {
-      width = 80,
-      focusable = false,
-    })
-
     -- publishDiagnostics
     vim.lsp.handlers[methods.textDocument_publishDiagnostics] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
       underline = true,
@@ -96,57 +90,15 @@ return {
     end
 
     local servers = {
-      ansiblels = {},
-      clangd = {
-        cmd = {
-          'clangd',
-          '--offset-encoding=utf-16',
-          '--enable-config',
-        },
-        root_dir = function(fname)
-          local root_files = {
-            '.clangd',
-            '.clang-tidy',
-            '.clang-format',
-            'compile_commands.json',
-            'compile_flags.txt',
-            'configure.ac', -- AutoTools
-          }
-          return require('lspconfig.util').root_pattern(root_files)(fname) or vim.fn.getcwd()
-        end,
-      },
-      rust_analyzer = {},
-      terraformls = {},
-      denols = {
-        autostart = false,
-        root_dir = function(fname)
-          local root_files = { 'deno.json', 'deno.jsonc' }
-          return require('lspconfig.util').root_pattern(root_files)(fname) or vim.fn.getcwd()
-        end,
-      },
-      bashls = {},
-      dockerls = {},
-      helm_ls = {},
-      svelte = {},
       tailwindcss = {
         autostart = false,
       },
       html = {},
       emmet_language_server = {},
-      pyright = {
-        settings = {
-          python = {
-            analysis = {
-              autoSearchPaths = true,
-              diagnosticMode = 'workspace',
-              useLibraryCodeForTypes = true,
-            },
-          },
-        },
-      },
       intelephense = {
         root_dir = function(fname)
-          local root_files = { 'composer.json', 'composer.lock', '.git', 'phpunit.xml', '.php_cs' }
+          local root_files = { '.git' } -- change this to root markers for your project (e.g. package.json, .git, etc)
+          vim.print(require('lspconfig.util').root_pattern(root_files)(fname))
           return require('lspconfig.util').root_pattern(root_files)(fname) or vim.fn.getcwd()
         end,
         settings = {
@@ -194,46 +146,6 @@ return {
           },
         },
       },
-      quick_lint_js = {},
-      templ = {},
-      gopls = {
-        settings = {
-          gopls = {
-            gofumpt = true,
-            codelenses = {
-              gc_details = false,
-              generate = true,
-              regenerate_cgo = true,
-              run_govulncheck = true,
-              test = true,
-              tidy = true,
-              upgrade_dependency = true,
-              vendor = true,
-            },
-            hints = {
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-            analyses = {
-              fieldalignment = true,
-              nilness = true,
-              unusedparams = true,
-              unusedwrite = true,
-              useany = true,
-            },
-            usePlaceholders = false,
-            completeUnimported = true,
-            staticcheck = true,
-            directoryFilters = { '-.git', '-.vscode', '-.idea', '-.vscode-test', '-node_modules' },
-            semanticTokens = true,
-          },
-        },
-      },
       lua_ls = {
         settings = {
           Lua = {
@@ -261,7 +173,6 @@ return {
           },
         },
       },
-      jdtls = {},
     }
 
     mason_lspconfig.setup({
