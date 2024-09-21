@@ -90,11 +90,31 @@ return {
     end
 
     local servers = {
+      -- denols = {
+      --   autostart = false,
+      --   root_dir = function(fname)
+      --     local root_files = { 'deno.json', 'deno.jsonc' }
+      --     return require('lspconfig.util').root_pattern(root_files)(fname) or vim.fn.getcwd()
+      --   end,
+      -- },
+      bashls = {},
+      -- dockerls = {},
       tailwindcss = {
         autostart = false,
       },
       html = {},
       emmet_language_server = {},
+      pyright = {
+        settings = {
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              diagnosticMode = 'workspace',
+              useLibraryCodeForTypes = true,
+            },
+          },
+        },
+      },
       intelephense = {
         root_dir = function(fname)
           local root_files = { '.git' } -- change this to root markers for your project (e.g. package.json, .git, etc)
@@ -146,6 +166,7 @@ return {
           },
         },
       },
+      quick_lint_js = {},
       lua_ls = {
         settings = {
           Lua = {

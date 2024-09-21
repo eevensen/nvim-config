@@ -23,6 +23,10 @@ return {
         'pylint',
         'eslint_d',
         'phpcs',
+        'phpcbf',
+        'twiggy_language_server',
+        'yamlls',
+        'yamllint',
       },
     })
   end,
