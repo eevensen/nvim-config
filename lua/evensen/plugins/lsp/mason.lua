@@ -25,7 +25,7 @@ return {
         'phpcs',
         'phpcbf',
         'twiggy_language_server',
-        'yamlls',
+        -- 'yamlls',
         'yamllint',
       },
     })
