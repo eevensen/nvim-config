@@ -27,6 +27,14 @@ vim.keymap.set('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev Se
 -- Leave insert mode with jk
 vim.keymap.set('i', 'jk', '<Esc>')
 
+-- Prevent Neovim from copying to the default paste register when using
+-- the 'c' (change) and 'd' (delete) commands. Instead, redirect the
+-- copied content to the black hole register (_), ensuring that it
+-- does not interfere with the default clipboard or paste operations.
+vim.keymap.set('n', 'c', '"_c', { desc = '[C]hange without copying to default paste register', noremap = true, silent = true })
+vim.keymap.set('n', 'd', '"ad', { desc = '[D]elete without copying to default paste register', noremap = true, silent = true })
+vim.keymap.set('n', 'dd', '"add', { desc = '[D]elete line without copying to default paste register', noremap = true, silent = true })
+
 -- Insert new line below or above with o and O without leaving normal mode
 vim.keymap.set('n', '<leader>o', 'o<Esc>', { desc = 'Insert new line below (normal mode)', noremap = true })
 vim.keymap.set('n', '<leader>O', 'O<Esc>', { desc = 'Insert new line above (normal mode)', noremap = true })
@@ -35,8 +43,8 @@ vim.keymap.set('n', '<leader>O', 'O<Esc>', { desc = 'Insert new line above (norm
 vim.keymap.set({ 'x', 'n' }, '<leader>p', [["_dP]], { desc = 'Cut and paste before cursor' })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
+-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
+-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
 -- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -67,20 +75,6 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', '<PageUp>', '<C-u>')
 vim.keymap.set('n', '<PageDown>', '<C-d>')
-
--- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
-
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
 
 -- Move around in insert mode with Ctrl + hjkl
 vim.keymap.set('i', '<C-h>', '<Left>', { desc = 'move left' })
@@ -162,7 +156,7 @@ vim.keymap.set('v', '>', '>gv')
 -- vim.keymap.set('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
 
 -- new file
-vim.keymap.set('n', '<leader>fn', '<cmd>enew<cr>', { desc = 'New File' })
+vim.keymap.set('n', '<leader>cn', '<cmd>enew<cr>', { desc = 'New File' })
 
 -- vim.keymap.set('n', '<leader>xl', '<cmd>lopen<cr>', { desc = 'Location List' })
 -- vim.keymap.set('n', '<leader>xq', '<cmd>copen<cr>', { desc = 'Quickfix List' })

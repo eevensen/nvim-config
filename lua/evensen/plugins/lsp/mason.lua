@@ -21,11 +21,14 @@ return {
         'isort', -- python formatter
         'black', -- python formatter
         'pylint',
+        -- 'docker_compose_language_service',
+        -- 'dockerls',
+        'hadolint',
         'eslint_d',
         'phpcs',
         'phpcbf',
-        'twiggy_language_server',
-        -- 'yamlls',
+        -- 'twiggy_language_server',
+        'yamlls',
         'yamllint',
       },
     })

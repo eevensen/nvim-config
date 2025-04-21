@@ -6,8 +6,9 @@
 return {
   'folke/todo-comments.nvim',
   cmd = { 'TodoTrouble', 'TodoTelescope' },
-  event = { 'BufReadPre', 'BufNewFile' },
-  opts = {},
+  event = 'VimEnter',
+  dependencies = { 'nvim-lua/plenary.nvim' },
+  opts = { signs = false },
     -- stylua: ignore
     keys = {
       { "]t", function() require("todo-comments").jump_next() end, desc = "Next Todo Comment" },
@@ -16,7 +17,7 @@ return {
       { "<leader>ct", "<cmd>Trouble todo toggle<cr>", desc = "Todo (Trouble)" },
       { "<leader>cT", "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
 
-      { "<leader>ft", "<cmd>TodoTelescope<cr>", desc = "Todo" },
-      { "<leader>fT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
+      { "<leader>tt", "<cmd>TodoTelescope<cr>", desc = "Todo" },
+      { "<leader>tT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
     },
 }

@@ -47,10 +47,9 @@ vim.opt.smartcase = true -- Don't ignore case with capitals
 
 -- Keep signcolumn on by default
 vim.opt.signcolumn = 'yes' -- Always show the signcolumn, otherwise it would shift the text each time
-vim.opt.timeoutlen = 400
 
 -- Decrease update time
-vim.opt.updatetime = 200 -- Save swap file and trigger CursorHold
+vim.opt.updatetime = 250 -- Save swap file and trigger CursorHold
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
@@ -154,3 +153,17 @@ vim.opt.winminwidth = 5 -- Minimum window width
 vim.g.markdown_recommended_style = 0
 -- turn off swapfile
 vim.opt.swapfile = false
+
+-- [[ Basic Autocommands ]]
+--  See `:help lua-guide-autocommands`
+
+-- Highlight when yanking (copying) text
+--  Try it with `yap` in normal mode
+--  See `:help vim.highlight.on_yank()`
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})

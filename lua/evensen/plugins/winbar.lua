@@ -1,3 +1,4 @@
+-- customizable window bar for displaying information and controlling windows.
 return {
   'fgheng/winbar.nvim',
   config = function()
