@@ -3,7 +3,7 @@
 -- manipulate undo branches.
 return {
   'mbbill/undotree',
-  vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = '[U]ndo tree (toggle)' }),
+  vim.keymap.set('n', '<leader>cu', vim.cmd.UndotreeToggle, { desc = '[C]ode [U]ndo tree (toggle)' }),
 
   'debugloop/telescope-undo.nvim',
   dependencies = { -- note how they're inverted to above example
