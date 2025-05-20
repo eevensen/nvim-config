@@ -6,3 +6,6 @@ nvim
 lazy-lock.json
 .DS_Store
 .history
+
+.claude
+CLAUDE.md

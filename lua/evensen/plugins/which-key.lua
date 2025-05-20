@@ -8,6 +8,7 @@ return {
   event = 'VimEnter', -- Sets the loading event to 'VimEnter'
   config = function() -- This is the function that runs, AFTER loading
     require('which-key').setup({
+      delay = 25, -- before open (ms)
       icons = {
         -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
@@ -51,7 +52,7 @@ return {
       { '<leader>b', group = 'Buffer' },
       { '<leader>c', group = 'Code' },
       -- { '<leader>d', group = 'Document' },
-      { '<leader>e', group = 'Nvim-tree' },
+      { '<leader>e', group = 'Explore files' },
       { '<leader>f', group = 'Find files Telescope' },
       { '<leader>t', group = 'Telescope find/search' },
       { '<leader>r', group = 'Rename' },

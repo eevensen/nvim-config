@@ -57,12 +57,36 @@ Evensen.io
     },
     picker = {
       enabled = true,
+      hidden = true,
+      ignored = true,
       sources = {
         explorer = {
           hidden = true,
-          ignored = false,
-          auto_close = true,
-          layout = { present = 'sidebar', preview = true },
+          ignored = true,
+          auto_close = false,
+          layout = { present = 'sidebar', preview = false, cycle = false },
+        },
+        files = {
+          hidden = true, -- Show hidden files (.dotfiles)
+          ignored = true, -- Show files ignored by git (.gitignore)
+        },
+        -- Grep pickers
+        grep = {
+          hidden = true,
+          ignored = true,
+        },
+        grep_word = {
+          hidden = true,
+          ignored = true,
+        },
+        grep_buffers = {
+          hidden = true,
+          ignored = true,
+        },
+        -- Other pickers you might use
+        buffers = {
+          hidden = true,
+          ignored = true,
         },
       },
     },
@@ -219,28 +243,28 @@ Evensen.io
     },
     -- Grep
     {
-      '<leader>sb',
+      '<leader>tb',
       function()
         Snacks.picker.lines()
       end,
       desc = 'Buffer Lines',
     },
     {
-      '<leader>sB',
+      '<leader>tB',
       function()
         Snacks.picker.grep_buffers()
       end,
       desc = 'Grep Open Buffers',
     },
     {
-      '<leader>sg',
+      '<leader>tg',
       function()
         Snacks.picker.grep()
       end,
       desc = 'Grep',
     },
     {
-      '<leader>sw',
+      '<leader>tw',
       function()
         Snacks.picker.grep_word()
       end,
@@ -249,140 +273,140 @@ Evensen.io
     },
     -- search
     {
-      '<leader>s"',
+      '<leader>t"',
       function()
         Snacks.picker.registers()
       end,
       desc = 'Registers',
     },
     {
-      '<leader>s/',
+      '<leader>t/',
       function()
         Snacks.picker.search_history()
       end,
       desc = 'Search History',
     },
     {
-      '<leader>sa',
+      '<leader>ta',
       function()
         Snacks.picker.autocmds()
       end,
       desc = 'Autocmds',
     },
     {
-      '<leader>sb',
+      '<leader>tb',
       function()
         Snacks.picker.lines()
       end,
       desc = 'Buffer Lines',
     },
     {
-      '<leader>sc',
+      '<leader>tc',
       function()
         Snacks.picker.command_history()
       end,
       desc = 'Command History',
     },
     {
-      '<leader>sC',
+      '<leader>tC',
       function()
         Snacks.picker.commands()
       end,
       desc = 'Commands',
     },
     {
-      '<leader>sd',
+      '<leader>td',
       function()
         Snacks.picker.diagnostics()
       end,
       desc = 'Diagnostics',
     },
     {
-      '<leader>sD',
+      '<leader>tD',
       function()
         Snacks.picker.diagnostics_buffer()
       end,
       desc = 'Buffer Diagnostics',
     },
     {
-      '<leader>sh',
+      '<leader>th',
       function()
         Snacks.picker.help()
       end,
       desc = 'Help Pages',
     },
     {
-      '<leader>sH',
+      '<leader>tH',
       function()
         Snacks.picker.highlights()
       end,
       desc = 'Highlights',
     },
     {
-      '<leader>si',
+      '<leader>ti',
       function()
         Snacks.picker.icons()
       end,
       desc = 'Icons',
     },
     {
-      '<leader>sj',
+      '<leader>tj',
       function()
         Snacks.picker.jumps()
       end,
       desc = 'Jumps',
     },
     {
-      '<leader>sk',
+      '<leader>tk',
       function()
         Snacks.picker.keymaps()
       end,
       desc = 'Keymaps',
     },
     {
-      '<leader>sl',
+      '<leader>tl',
       function()
         Snacks.picker.loclist()
       end,
       desc = 'Location List',
     },
     {
-      '<leader>sm',
+      '<leader>tm',
       function()
         Snacks.picker.marks()
       end,
       desc = 'Marks',
     },
     {
-      '<leader>sM',
+      '<leader>tM',
       function()
         Snacks.picker.man()
       end,
       desc = 'Man Pages',
     },
     {
-      '<leader>sp',
+      '<leader>tp',
       function()
         Snacks.picker.lazy()
       end,
       desc = 'Search for Plugin Spec',
     },
     {
-      '<leader>sq',
+      '<leader>tq',
       function()
         Snacks.picker.qflist()
       end,
       desc = 'Quickfix List',
     },
     {
-      '<leader>sR',
+      '<leader>tR',
       function()
         Snacks.picker.resume()
       end,
       desc = 'Resume',
     },
     {
-      '<leader>su',
+      '<leader>tu',
       function()
         Snacks.picker.undo()
       end,
@@ -440,7 +464,7 @@ Evensen.io
       desc = 'LSP Symbols',
     },
     {
-      '<leader>sS',
+      '<leader>tS',
       function()
         Snacks.picker.lsp_workspace_symbols()
       end,
