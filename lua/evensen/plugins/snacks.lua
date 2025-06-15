@@ -46,8 +46,8 @@ Evensen.io
       },
     },
     explorer = {
-      enabled = true,
-      replace_netrw = true,
+      enabled = false,
+      replace_netrw = false,
     },
     indent = { enabled = true },
     input = { enabled = true },
