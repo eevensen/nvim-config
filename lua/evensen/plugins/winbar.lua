@@ -1,10 +1,8 @@
 -- customizable window bar for displaying information and controlling windows.
 return {
   'fgheng/winbar.nvim',
-  config = function()
-    local winbar = require('winbar')
-
-    winbar.setup({
+  event = { 'BufReadPost', 'BufNewFile' },
+  opts = {
       enabled = true,
 
       show_file_path = true,
@@ -38,6 +36,5 @@ return {
         'toggleterm',
         'qf',
       },
-    })
-  end,
+  },
 }

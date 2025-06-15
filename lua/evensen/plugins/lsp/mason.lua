@@ -1,10 +1,7 @@
 return {
-  'williamboman/mason.nvim',
-  dependencies = {
-    'WhoIsSethDaniel/mason-tool-installer.nvim',
-  },
-  config = function()
-    require('mason').setup({
+  {
+    'williamboman/mason.nvim',
+    opts = {
       ui = {
         icons = {
           package_installed = '✓',
@@ -12,12 +9,17 @@ return {
           package_uninstalled = '✗',
         },
       },
-    })
-
-    require('mason-tool-installer').setup({
+    },
+  },
+  {
+    'WhoIsSethDaniel/mason-tool-installer.nvim',
+    dependencies = {
+      'williamboman/mason.nvim',
+    },
+    opts = {
       ensure_installed = {
-        'prettier', -- prettier formatter
-        'stylua', -- lua formatter
+        'prettier',
+        'stylua',
         'isort', -- python formatter
         'black', -- python formatter
         'pylint',
@@ -27,10 +29,10 @@ return {
         'eslint_d',
         'phpcs',
         'phpcbf',
-        -- 'twiggy_language_server',
+        'twiggy_language_server',
         'yamlls',
         'yamllint',
       },
-    })
-  end,
+    },
+  },
 }

@@ -14,9 +14,9 @@ return {
   },
   keys = {
     { -- lazy style key map
-      '<leader>u',
+      '<leader>cu',
       '<cmd>Telescope undo<cr>',
-      desc = 'Undo history',
+      desc = '[C]ode [U]ndo history',
     },
   },
   opts = {

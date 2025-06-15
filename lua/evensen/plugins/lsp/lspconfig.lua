@@ -61,6 +61,7 @@ return {
         -- Rename the variable under your cursor.
         --  Most Language Servers support renaming across files, etc.
         map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+        map('<leader>cr', vim.lsp.buf.rename, '[R]e[n]ame')
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
@@ -208,6 +209,9 @@ return {
       },
       html = {},
       emmet_language_server = {},
+      twiggy_language_server = {
+        filetypes = { 'twig', 'html' },
+      },
       pyright = {
         settings = {
           python = {

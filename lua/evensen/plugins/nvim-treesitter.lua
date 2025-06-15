@@ -20,10 +20,9 @@ return {
     -- List of parsers to ignore installing (or "all")
     ignore_install = {},
 
-    modules = {},
-    disable = { 'csv' },
     highlight = {
       enable = true,
+      disable = { 'csv' },
       -- additional_vim_regex_highlighting = true,
     },
 

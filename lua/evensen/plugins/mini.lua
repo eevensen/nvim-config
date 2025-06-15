@@ -31,6 +31,6 @@ return {
     end
 
     require('mini.bracketed').setup()
-    require('mini.pairs').setup()
+    -- require('mini.pairs').setup()
   end,
 }

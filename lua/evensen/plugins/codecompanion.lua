@@ -2,6 +2,31 @@
 -- with support for Gemini, Claude and more.
 return {
   'olimorris/codecompanion.nvim',
+  cmd = { 'CodeCompanion', 'CodeCompanionChat', 'CodeCompanionToggle', 'CodeCompanionAdd' },
+  keys = {
+    -- Primary keymaps
+    { '<leader>co', '<cmd>CodeCompanionActions<cr>', mode = { 'n', 'v' }, desc = 'CodeCompanion Actions' },
+
+    -- Chat operations
+    { '<leader>cc', '<cmd>CodeCompanionChat Toggle<cr>', mode = { 'n', 'v' }, desc = 'CodeCompanion Chat' },
+    { '<leader>ca', '<cmd>CodeCompanionChat Add<cr>', mode = 'v', desc = 'Add to CodeCompanion' },
+    { '<leader>cC', '<cmd>CodeCompanionChat New<cr>', mode = 'n', desc = 'New CodeCompanion Chat' },
+    { '<leader>cp', '<cmd>CodeCompanionChat<cr>', mode = 'n', desc = 'Pick CodeCompanion Chat' },
+
+    -- Inline and actions
+    { '<leader>ci', '<cmd>CodeCompanion<cr>', mode = 'n', desc = 'Inline CodeCompanion' },
+    { '<leader>cs', '<cmd>CodeCompanionCmd<cr>', mode = { 'n', 'v' }, desc = 'Generate Shell Command' },
+
+    -- Custom prompt keybindings - these will work after lazy loading
+    { '<leader>cdh', function() vim.cmd('CodeCompanion /Drupal Hook') end, mode = 'n', desc = 'Drupal Hook' },
+    { '<leader>ctw', function() vim.cmd('CodeCompanion /Twig Template') end, mode = 'n', desc = 'Twig Template' },
+    { '<leader>cds', function() vim.cmd('CodeCompanion /Drupal Service') end, mode = 'n', desc = 'Drupal Service' },
+    { '<leader>cde', function() vim.cmd('CodeCompanion /Drupal Expert Mode') end, mode = 'n', desc = 'Drupal Expert Mode' },
+    { '<leader>ce', function() vim.cmd('CodeCompanion /Explain Code') end, mode = 'v', desc = 'Explain Code' },
+    { '<leader>cx', function() vim.cmd('CodeCompanion /Fix Code') end, mode = 'v', desc = 'Fix Code' },
+    { '<leader>cr', function() vim.cmd('CodeCompanion /Refactor Code') end, mode = 'v', desc = 'Refactor Code' },
+    { '<leader>ct', function() vim.cmd('CodeCompanion /Generate Tests') end, mode = 'v', desc = 'Generate Tests' },
+  },
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
@@ -74,6 +99,178 @@ return {
     opts = {
       -- Set debug logging
       log_level = 'DEBUG',
+    },
+    prompts = {
+      ['Drupal Hook'] = {
+        strategy = 'chat',
+        description = 'Implement a Drupal hook',
+        opts = {
+          index = 1,
+          default_prompt = true,
+          mapping = '<leader>cdh',
+          user_prompt = false,
+        },
+        prompts = {
+          {
+            role = 'user',
+            content = function()
+              return 'Help me implement a Drupal hook. Ask me which hook I need and provide a modern implementation following Drupal 10.4.7 best practices.'
+            end,
+          },
+        },
+      },
+      ['Twig Template'] = {
+        strategy = 'chat',
+        description = 'Create or modify a Twig template',
+        opts = {
+          index = 2,
+          default_prompt = true,
+          mapping = '<leader>ctw',
+          user_prompt = false,
+        },
+        prompts = {
+          {
+            role = 'user',
+            content = function()
+              return 'Help me create or modify a Twig template for my Radix subtheme. Ensure it follows Radix conventions and uses modern Twig patterns with proper Drupal integration.'
+            end,
+          },
+        },
+      },
+      ['Drupal Service'] = {
+        strategy = 'chat',
+        description = 'Create a custom Drupal service',
+        opts = {
+          index = 3,
+          default_prompt = true,
+          mapping = '<leader>cds',
+          user_prompt = false,
+        },
+        prompts = {
+          {
+            role = 'user',
+            content = function()
+              return 'Help me create a custom Drupal service with dependency injection. Follow Drupal 10.4.7 service container best practices.'
+            end,
+          },
+        },
+      },
+      ['Drupal Expert Mode'] = {
+        strategy = 'chat',
+        description = 'Activate Drupal/Radix expert context',
+        opts = {
+          index = 4,
+          default_prompt = true,
+          mapping = '<leader>cde',
+          user_prompt = false,
+        },
+        prompts = {
+          {
+            role = 'system',
+            content = [[You are an expert developer with deep knowledge of Drupal 10.4.7 and modern web development practices.
+I am working with a Drupal subtheme created with Radix (https://www.drupal.org/project/radix), and you should reference the Radix documentation at https://radix.trydrupal.com/radix when needed.
+
+Key expertise areas:
+- Drupal 10.4.7 best practices and modern Drupal development patterns
+- Radix theme framework and its component-based architecture
+- Twig templating with Drupal-specific functions and filters
+- Modern CSS/SCSS with utility classes and CSS Grid/Flexbox
+- JavaScript ES6+ and Drupal behaviors
+- Drupal's render API and theme hooks
+- Performance optimization and caching strategies
+- Accessibility (WCAG 2.1 AA compliance)
+- Responsive design patterns
+
+Always provide modern, clean, and maintainable code that follows Drupal coding standards and leverages the latest features available in Drupal 10.4.7 and Radix.]],
+          },
+          {
+            role = 'user',
+            content = function()
+              return 'I need help with Drupal development. I am now in Drupal expert mode with knowledge of Drupal 10.4.7 and Radix theme framework.'
+            end,
+          },
+        },
+      },
+      ['Explain Code'] = {
+        strategy = 'chat',
+        description = 'Explain how the selected code works',
+        opts = {
+          index = 5,
+          default_prompt = true,
+          mapping = '<leader>ce',
+          modes = { 'v' },
+          user_prompt = false,
+        },
+        prompts = {
+          {
+            role = 'user',
+            content = function(context)
+              local code = require('codecompanion.api').get_code(context.start_line, context.end_line)
+              return 'Please explain how this code works:\n\n```' .. context.filetype .. '\n' .. code .. '\n```'
+            end,
+          },
+        },
+      },
+      ['Fix Code'] = {
+        strategy = 'chat',
+        description = 'Fix issues in the selected code',
+        opts = {
+          index = 6,
+          default_prompt = true,
+          mapping = '<leader>cx',
+          modes = { 'v' },
+          user_prompt = false,
+        },
+        prompts = {
+          {
+            role = 'user',
+            content = function(context)
+              local code = require('codecompanion.api').get_code(context.start_line, context.end_line)
+              return 'Please fix any issues in this code and explain what was wrong:\n\n```' .. context.filetype .. '\n' .. code .. '\n```'
+            end,
+          },
+        },
+      },
+      ['Refactor Code'] = {
+        strategy = 'chat',
+        description = 'Refactor the selected code',
+        opts = {
+          index = 7,
+          default_prompt = true,
+          mapping = '<leader>cr',
+          modes = { 'v' },
+          user_prompt = false,
+        },
+        prompts = {
+          {
+            role = 'user',
+            content = function(context)
+              local code = require('codecompanion.api').get_code(context.start_line, context.end_line)
+              return 'Please refactor this code to be cleaner and more maintainable:\n\n```' .. context.filetype .. '\n' .. code .. '\n```'
+            end,
+          },
+        },
+      },
+      ['Generate Tests'] = {
+        strategy = 'chat',
+        description = 'Generate tests for the selected code',
+        opts = {
+          index = 8,
+          default_prompt = true,
+          mapping = '<leader>ct',
+          modes = { 'v' },
+          user_prompt = false,
+        },
+        prompts = {
+          {
+            role = 'user',
+            content = function(context)
+              local code = require('codecompanion.api').get_code(context.start_line, context.end_line)
+              return 'Please generate comprehensive tests for this code:\n\n```' .. context.filetype .. '\n' .. code .. '\n```'
+            end,
+          },
+        },
+      },
     },
     display = {
       action_palette = {

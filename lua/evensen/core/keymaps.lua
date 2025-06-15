@@ -216,8 +216,8 @@ vim.keymap.set('n', '<leader>cL', ':set relativenumber!<CR>', { desc = 'Toggle R
 -- windows
 -- vim.keymap.set("n", "<leader>ww", "<C-W>p", { desc = "Other Window", remap = true })
 -- vim.keymap.set("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
--- vim.keymap.set("n", "<leader>w-", "<C-W>s", { desc = "Split Window Below", remap = true })
--- vim.keymap.set("n", "<leader>w|", "<C-W>v", { desc = "Split Window Right", remap = true })
+vim.keymap.set('n', '<leader>w-', '<C-W>s', { desc = 'Split Window Below', remap = true })
+vim.keymap.set('n', '<leader>w|', '<C-W>v', { desc = 'Split Window Right', remap = true })
 -- vim.keymap.set("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
 -- vim.keymap.set("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
 

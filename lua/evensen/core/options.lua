@@ -72,7 +72,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
-vim.opt.cursorline = true
+-- vim.opt.cursorline = true (already set on line 28)
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 8
@@ -114,7 +114,7 @@ vim.opt.shortmess:append('sI')
 -- when cursor reaches end/beginning of line
 vim.opt.whichwrap:append('<>[]hl')
 
-vim.cmd('let g:netrw_liststyle = 3')
+vim.g.netrw_liststyle = 3
 
 -- Set filetype to `bigfile` for files larger than 1.5 MB
 -- Only vim syntax will be enabled (with the correct filetype)
@@ -128,7 +128,6 @@ vim.g.trouble_lualine = true
 vim.opt.completeopt = 'menu,menuone,noselect'
 vim.opt.conceallevel = 0 -- Hide * markup for bold and italic, but not markers with substitutions
 vim.opt.confirm = true -- Confirm to save changes before exiting modified buffer
-vim.opt.cursorline = true -- Enable highlighting of the current line
 vim.opt.foldlevel = 99
 vim.opt.formatoptions = 'jcroqlnt' -- tcqj
 vim.opt.grepformat = '%f:%l:%c:%m'
@@ -141,7 +140,6 @@ vim.opt.pumheight = 10 -- Maximum number of entries in a popup
 vim.opt.sessionoptions = { 'buffers', 'curdir', 'tabpages', 'winsize', 'help', 'globals', 'skiprtp', 'folds' }
 vim.opt.shiftround = true -- Round indent
 vim.opt.sidescrolloff = 8 -- Columns of context
-vim.opt.smartindent = true -- Insert indents automatically
 vim.opt.spelllang = { 'en' }
 vim.opt.spelloptions:append('noplainbuffer')
 -- vim.opt.statuscolumn = [[%!v:lua.require'lazyvim.util'.ui.statuscolumn()]]
@@ -151,8 +149,6 @@ vim.opt.winminwidth = 5 -- Minimum window width
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
--- turn off swapfile
-vim.opt.swapfile = false
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
