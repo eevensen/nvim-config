@@ -45,10 +45,10 @@ Evensen.io
         { section = 'startup' },
       },
     },
-    explorer = {
-      enabled = false,
-      replace_netrw = false,
-    },
+    -- explorer = {
+    --   enabled = false,
+    --   replace_netrw = false,
+    -- },
     indent = { enabled = true },
     input = { enabled = true },
     notifier = {
@@ -60,12 +60,12 @@ Evensen.io
       hidden = true,
       ignored = true,
       sources = {
-        explorer = {
-          hidden = true,
-          ignored = true,
-          auto_close = false,
-          layout = { present = 'sidebar', preview = false, cycle = false },
-        },
+        -- explorer = {
+        --   hidden = true,
+        --   ignored = true,
+        --   auto_close = false,
+        --   layout = { present = 'sidebar', preview = false, cycle = false },
+        -- },
         files = {
           hidden = true, -- Show hidden files (.dotfiles)
           ignored = true, -- Show files ignored by git (.gitignore)
@@ -139,15 +139,15 @@ Evensen.io
       end,
       desc = 'Notification History',
     },
-    {
-      '<leader>e',
-      function()
-        ---@param opts? {file?:string, buf?:number}
-        Snacks.explorer.reveal(opts)
-        -- Snacks.explorer()
-      end,
-      desc = 'File Explorer',
-    },
+    -- {
+    --   '<leader>e',
+    --   function()
+    --     ---@param opts? {file?:string, buf?:number}
+    --     Snacks.explorer.reveal(opts)
+    --     -- Snacks.explorer()
+    --   end,
+    --   desc = 'File Explorer',
+    -- },
     -- find
     {
       '<leader>tb',

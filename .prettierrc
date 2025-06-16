@@ -1,0 +1,11 @@
+{
+  "plugins": ["@prettier/plugin-php"],
+  "overrides": [
+    {
+      "files": "*.twig",
+      "options": {
+        "parser": "php"
+      }
+    }
+  ]
+}
