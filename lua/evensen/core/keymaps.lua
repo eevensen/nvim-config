@@ -27,13 +27,13 @@ vim.keymap.set('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev Se
 -- Leave insert mode with jk
 vim.keymap.set('i', 'jk', '<Esc>')
 
--- Prevent Neovim from copying to the default paste register when using
--- the 'c' (change) and 'd' (delete) commands. Instead, redirect the
--- copied content to the black hole register (_), ensuring that it
--- does not interfere with the default clipboard or paste operations.
-vim.keymap.set('n', 'c', '"_c', { desc = '[C]hange without copying to default paste register', noremap = true, silent = true })
-vim.keymap.set('n', 'd', '"ad', { desc = '[D]elete without copying to default paste register', noremap = true, silent = true })
-vim.keymap.set('n', 'dd', '"add', { desc = '[D]elete line without copying to default paste register', noremap = true, silent = true })
+-- Custom delete/change operations that don't affect the default register
+-- Standard c and d commands work normally
+vim.keymap.set('n', '<leader>c', '"_c', { desc = 'Change without yanking', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>d', '"_d', { desc = 'Delete without yanking', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>dd', '"_dd', { desc = 'Delete line without yanking', noremap = true, silent = true })
+vim.keymap.set('v', '<leader>d', '"_d', { desc = 'Delete selection without yanking', noremap = true, silent = true })
+vim.keymap.set('v', '<leader>c', '"_c', { desc = 'Change selection without yanking', noremap = true, silent = true })
 
 -- Insert new line below or above with o and O without leaving normal mode
 vim.keymap.set('n', '<leader>o', 'o<Esc>', { desc = 'Insert new line below (normal mode)', noremap = true })
@@ -56,13 +56,8 @@ vim.keymap.set({ 'x', 'n' }, '<leader>p', [["_dP]], { desc = 'Cut and paste befo
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+-- Window navigation is handled by vim-tmux-navigator plugin
+-- which provides seamless navigation between vim splits and tmux panes
 
 -- better up/down
 vim.keymap.set({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { desc = 'Down', expr = true, silent = true })
@@ -76,17 +71,18 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', '<PageUp>', '<C-u>')
 vim.keymap.set('n', '<PageDown>', '<C-d>')
 
--- Move around in insert mode with Ctrl + hjkl
-vim.keymap.set('i', '<C-h>', '<Left>', { desc = 'move left' })
-vim.keymap.set('i', '<C-l>', '<Right>', { desc = 'move right' })
-vim.keymap.set('i', '<C-j>', '<Down>', { desc = 'move down' })
-vim.keymap.set('i', '<C-k>', '<Up>', { desc = 'move up' })
+-- Move around in insert mode with Alt + hjkl (changed from Ctrl to avoid tmux conflict)
+vim.keymap.set('i', '<A-h>', '<Left>', { desc = 'move left' })
+vim.keymap.set('i', '<A-l>', '<Right>', { desc = 'move right' })
+vim.keymap.set('i', '<A-j>', '<Down>', { desc = 'move down' })
+vim.keymap.set('i', '<A-k>', '<Up>', { desc = 'move up' })
 vim.keymap.set('i', '<C-b>', '<ESC>^i', { desc = 'move beginning of line' })
 vim.keymap.set('i', '<C-e>', '<End>', { desc = 'move end of line' })
 
 -- Save file with <C-s>
 vim.keymap.set({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save File' })
--- vim.keymap.set({ 'i', 'x', 'n', 's' }, '<C-x>', '<cmd>q<cr><esc>', { desc = 'Exit File' })
+-- Close buffer without saving with <C-x>
+vim.keymap.set({ 'i', 'x', 'n', 's' }, '<C-x>', '<cmd>bd<cr>', { desc = 'Close Buffer' })
 -- vim.keymap.set('n', '<C-c>', '<cmd>%y+<CR>', { desc = 'file copy whole' })
 
 -- quit
@@ -111,16 +107,13 @@ vim.keymap.set('n', '<C-Down>', '<cmd>resize -2<cr>', { desc = 'Decrease Window 
 vim.keymap.set('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease Window Width' })
 vim.keymap.set('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Increase Window Width' })
 
--- Move Lines
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = '[J] Move selection down' })
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = '[K] Move selection up' })
--- buffers
--- NOTE: I need to get better at moving between buffers. Any advice?
-vim.keymap.set('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
-vim.keymap.set('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
-
-vim.keymap.set('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
-vim.keymap.set('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
+-- Move Lines with Alt+j/k (preserves standard J/K behavior)
+vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selection down' })
+vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selection up' })
+vim.keymap.set('n', '<A-j>', ":m .+1<CR>==", { desc = 'Move line down' })
+vim.keymap.set('n', '<A-k>', ":m .-2<CR>==", { desc = 'Move line up' })
+-- Buffer navigation is handled by bufferline.nvim plugin
+-- which provides <S-h>/<S-l> and [b/]b mappings with better visual feedback
 
 vim.keymap.set('n', 'bp', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 vim.keymap.set('n', 'bn', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
@@ -179,23 +172,6 @@ vim.keymap.set('n', '<leader>cL', ':set relativenumber!<CR>', { desc = 'Toggle R
 -- vim.keymap.set("n", "<leader>ub", function() LazyVim.toggle("background", false, {"light", "dark"}) end, { desc = "Toggle Background" })
 --
 --
--- lazygit
--- vim.keymap.set("n", "<leader>gg", function() LazyVim.lazygit( { cwd = LazyVim.root.git() }) end, { desc = "Lazygit (Root Dir)" })
--- vim.keymap.set("n", "<leader>gG", function() LazyVim.lazygit() end, { desc = "Lazygit (cwd)" })
--- vim.keymap.set("n", "<leader>gb", LazyVim.lazygit.blame_line, { desc = "Git Blame Line" })
--- vim.keymap.set("n", "<leader>gB", LazyVim.lazygit.browse, { desc = "Git Browse" })
-
--- vim.keymap.set("n", "<leader>gf", function()
---   local git_path = vim.api.nvim_buf_get_name(0)
---   LazyVim.lazygit({args = { "-f", vim.trim(git_path) }})
--- end, { desc = "Lazygit Current File History" })
---
--- vim.keymap.set("n", "<leader>gl", function()
---   LazyVim.lazygit({ args = { "log" }, cwd = LazyVim.root.git() })
--- end, { desc = "Lazygit Log" })
--- vim.keymap.set("n", "<leader>gL", function()
---   LazyVim.lazygit({ args = { "log" } })
--- end, { desc = "Lazygit Log (cwd)" })
 
 -- floating terminal
 -- local lazyterm = function() LazyVim.terminal(nil, { cwd = LazyVim.root() }) end

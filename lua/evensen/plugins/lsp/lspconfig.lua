@@ -208,7 +208,23 @@ return {
         autostart = false,
       },
       html = {},
-      emmet_language_server = {},
+      emmet_language_server = {
+        -- Override the default filetypes to include twig
+        filetypes = {
+          'astro', 'css', 'eruby', 'html', 'htmlangular', 'htmldjango', 
+          'javascriptreact', 'less', 'pug', 'sass', 'scss', 'svelte', 
+          'templ', 'typescriptreact', 'vue', 'twig'
+        },
+        init_options = {
+          showExpandedAbbreviation = 'always',
+          showAbbreviationSuggestions = true,
+          showSuggestionsAsSnippets = true,
+          preferences = {},
+          includeLanguages = {
+            twig = 'html',
+          },
+        },
+      },
       twiggy_language_server = {
         filetypes = { 'twig', 'html' },
       },
@@ -319,6 +335,8 @@ return {
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
+      'djlint', -- Used to format Twig/Django/Jinja2 templates
+      'emmet-language-server', -- Emmet for HTML/CSS/Twig
     })
     require('mason-tool-installer').setup({ ensure_installed = ensure_installed })
 
@@ -327,6 +345,10 @@ return {
       automatic_installation = false,
       handlers = {
         function(server_name)
+          -- Skip emmet_language_server as we set it up manually below
+          if server_name == 'emmet_language_server' then
+            return
+          end
           local server = servers[server_name] or {}
           -- This handles overriding only values explicitly passed
           -- by the server configuration above. Useful when disabling
@@ -334,6 +356,26 @@ return {
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
           require('lspconfig')[server_name].setup(server)
         end,
+      },
+    })
+
+    -- Manually setup emmet_language_server with twig support
+    -- This is done outside of mason-lspconfig to ensure our custom config is applied
+    require('lspconfig').emmet_language_server.setup({
+      capabilities = capabilities,
+      filetypes = {
+        'astro', 'css', 'eruby', 'html', 'htmlangular', 'htmldjango', 
+        'javascriptreact', 'less', 'pug', 'sass', 'scss', 'svelte', 
+        'templ', 'typescriptreact', 'vue', 'twig'
+      },
+      init_options = {
+        showExpandedAbbreviation = 'always',
+        showAbbreviationSuggestions = true,
+        showSuggestionsAsSnippets = true,
+        preferences = {},
+        includeLanguages = {
+          twig = 'html',
+        },
       },
     })
   end,

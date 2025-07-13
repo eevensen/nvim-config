@@ -56,9 +56,111 @@ Evensen.io
       timeout = 3000,
     },
     picker = {
+      -- My ~/github/dotfiles-latest/neovim/lazyvim/lua/config/keymaps.lua
+      -- file was always showing at the top, I needed a way to decrease its
+      -- score, in frecency you could use :FrecencyDelete to delete a file
+      -- from the database, here you can decrease it's score
+
       enabled = true,
       hidden = true,
       ignored = true,
+      transform = function(item)
+        if not item.file then
+          return item
+        end
+        -- Demote the "lazyvim" keymaps file:
+        if item.file:match('lazyvim/lua/config/keymaps%.lua') then
+          item.score_add = (item.score_add or 0) - 30
+        end
+        -- Boost the "neobean" keymaps file:
+        -- if item.file:match("neobean/lua/config/keymaps%.lua") then
+        --   item.score_add = (item.score_add or 0) + 100
+        -- end
+        return item
+      end,
+      -- In case you want to make sure that the score manipulation above works
+      -- or if you want to check the score of each file
+      debug = {
+        scores = false, -- show scores in the list
+      },
+      -- I like the "ivy" layout, so I set it as the default globaly, you can
+      -- still override it in different keymaps
+      layout = {
+        preset = 'ivy',
+        -- When reaching the bottom of the results in the picker, I don't want
+        -- it to cycle and go back to the top
+        cycle = false,
+      },
+      layouts = {
+        -- I wanted to modify the ivy layout height and preview pane width,
+        -- this is the only way I was able to do it
+        -- NOTE: I don't think this is the right way as I'm declaring all the
+        -- other values below, if you know a better way, let me know
+        --
+        -- Then call this layout in the keymaps above
+        -- got example from here
+        -- https://github.com/folke/snacks.nvim/discussions/468
+        ivy = {
+          layout = {
+            box = 'vertical',
+            backdrop = false,
+            row = -1,
+            width = 0,
+            height = 0.5,
+            border = 'top',
+            title = ' {title} {live} {flags}',
+            title_pos = 'left',
+            { win = 'input', height = 1, border = 'bottom' },
+            {
+              box = 'horizontal',
+              { win = 'list', border = 'none' },
+              { win = 'preview', title = '{preview}', width = 0.5, border = 'left' },
+            },
+          },
+        },
+        -- I wanted to modify the layout width
+        --
+        vertical = {
+          layout = {
+            backdrop = false,
+            width = 0.8,
+            min_width = 80,
+            height = 0.8,
+            min_height = 30,
+            box = 'vertical',
+            border = 'rounded',
+            title = '{title} {live} {flags}',
+            title_pos = 'center',
+            { win = 'input', height = 1, border = 'bottom' },
+            { win = 'list', border = 'none' },
+            { win = 'preview', title = '{preview}', height = 0.4, border = 'top' },
+          },
+        },
+      },
+      matcher = {
+        frecency = true,
+      },
+      win = {
+        input = {
+          keys = {
+            -- to close the picker on ESC instead of going to normal mode,
+            -- add the following keymap to your config
+            ['<Esc>'] = { 'close', mode = { 'n', 'i' } },
+            -- I'm used to scrolling like this in LazyGit
+            ['J'] = { 'preview_scroll_down', mode = { 'i', 'n' } },
+            ['K'] = { 'preview_scroll_up', mode = { 'i', 'n' } },
+            ['H'] = { 'preview_scroll_left', mode = { 'i', 'n' } },
+            ['L'] = { 'preview_scroll_right', mode = { 'i', 'n' } },
+          },
+        },
+      },
+      formatters = {
+        file = {
+          filename_first = false, -- display filename before the file path
+          icons = true,
+          truncate = 100, -- Increase from default 40 to show longer paths
+        },
+      },
       sources = {
         -- explorer = {
         --   hidden = true,
@@ -69,6 +171,10 @@ Evensen.io
         files = {
           hidden = true, -- Show hidden files (.dotfiles)
           ignored = true, -- Show files ignored by git (.gitignore)
+          matcher = {
+            frecency = true, -- Use frecency scoring
+            sort_empty = true, -- Sort by frecency even when empty
+          },
         },
         -- Grep pickers
         grep = {
@@ -87,9 +193,14 @@ Evensen.io
         buffers = {
           hidden = true,
           ignored = true,
+          matcher = {
+            frecency = true, -- Use frecency scoring
+            sort_empty = true,
+          },
         },
       },
     },
+
     quickfile = { enabled = true },
     scope = { enabled = true },
     -- scroll = { enabled = true },
@@ -132,13 +243,6 @@ Evensen.io
       end,
       desc = 'Command History',
     },
-    {
-      '<leader>n',
-      function()
-        Snacks.picker.notifications()
-      end,
-      desc = 'Notification History',
-    },
     -- {
     --   '<leader>e',
     --   function()
@@ -149,13 +253,6 @@ Evensen.io
     --   desc = 'File Explorer',
     -- },
     -- find
-    {
-      '<leader>tb',
-      function()
-        Snacks.picker.buffers()
-      end,
-      desc = 'Buffers',
-    },
     {
       '<leader>tc',
       function()
@@ -171,7 +268,7 @@ Evensen.io
       desc = 'Find Files',
     },
     {
-      '<leader>tg',
+      '<leader>tG',
       function()
         Snacks.picker.git_files()
       end,
@@ -193,7 +290,7 @@ Evensen.io
     },
     -- git
     {
-      '<leader>gb',
+      '<leader>gB',
       function()
         Snacks.picker.git_branches()
       end,
@@ -232,10 +329,17 @@ Evensen.io
       function()
         Snacks.picker.git_diff()
       end,
-      desc = 'Git Diff (Hunks)',
+      desc = 'Git diff',
     },
     {
-      '<leader>gf',
+      '<leader>gb',
+      function()
+        Snacks.git.blame_line()
+      end,
+      desc = 'Git blame line',
+    },
+    {
+      '<leader>gF',
       function()
         Snacks.picker.git_log_file()
       end,
@@ -243,7 +347,7 @@ Evensen.io
     },
     -- Grep
     {
-      '<leader>tb',
+      '<leader>sl',
       function()
         Snacks.picker.lines()
       end,
@@ -294,14 +398,7 @@ Evensen.io
       desc = 'Autocmds',
     },
     {
-      '<leader>tb',
-      function()
-        Snacks.picker.lines()
-      end,
-      desc = 'Buffer Lines',
-    },
-    {
-      '<leader>tc',
+      '<leader>sc',
       function()
         Snacks.picker.command_history()
       end,
@@ -413,6 +510,13 @@ Evensen.io
       desc = 'Undo History',
     },
     {
+      '<leader>te',
+      function()
+        Snacks.picker.files({ cwd = 'docroot/themes/custom/evensen_icelex' })
+      end,
+      desc = 'Find in docroot/themes',
+    },
+    {
       '<leader>uC',
       function()
         Snacks.picker.colorschemes()
@@ -500,7 +604,7 @@ Evensen.io
       desc = 'Select Scratch Buffer',
     },
     {
-      '<leader>n',
+      '<leader>sn',
       function()
         Snacks.notifier.show_history()
       end,
@@ -521,19 +625,12 @@ Evensen.io
       desc = 'Rename File',
     },
     {
-      '<leader>gB',
+      '<leader>gO',
       function()
         Snacks.gitbrowse()
       end,
-      desc = 'Git Browse',
+      desc = 'Git Browse (open in browser)',
       mode = { 'n', 'v' },
-    },
-    {
-      '<leader>gg',
-      function()
-        Snacks.lazygit()
-      end,
-      desc = 'Lazygit',
     },
     {
       '<leader>un',
@@ -557,7 +654,7 @@ Evensen.io
       desc = 'which_key_ignore',
     },
     {
-      ']]',
+      '<leader>]',
       function()
         Snacks.words.jump(vim.v.count1)
       end,
@@ -565,7 +662,7 @@ Evensen.io
       mode = { 'n', 't' },
     },
     {
-      '[[',
+      '<leader>[',
       function()
         Snacks.words.jump(-vim.v.count1)
       end,
@@ -592,6 +689,15 @@ Evensen.io
     },
   },
   init = function()
+    -- Add buffer validation wrapper to prevent invalid buffer errors
+    local original_nvim_win_set_buf = vim.api.nvim_win_set_buf
+    vim.api.nvim_win_set_buf = function(window, buffer)
+      -- Check if buffer is valid before setting
+      if vim.api.nvim_buf_is_valid(buffer) then
+        return original_nvim_win_set_buf(window, buffer)
+      end
+    end
+
     vim.api.nvim_create_autocmd('User', {
       pattern = 'VeryLazy',
       callback = function()
@@ -616,6 +722,35 @@ Evensen.io
         Snacks.toggle.inlay_hints():map('<leader>uh')
         Snacks.toggle.indent():map('<leader>ug')
         Snacks.toggle.dim():map('<leader>uD')
+      end,
+    })
+
+    -- Show dashboard when all buffers are closed
+    vim.api.nvim_create_autocmd('BufDelete', {
+      callback = function()
+        vim.schedule(function()
+          -- Skip if we're in a yazi floating window
+          local win = vim.api.nvim_get_current_win()
+          local win_config = vim.api.nvim_win_get_config(win)
+          if win_config.relative ~= '' then
+            return -- Skip for floating windows (like yazi)
+          end
+
+          -- Get all listed buffers
+          local buffers = vim.fn.getbufinfo({ buflisted = 1 })
+          -- Filter out buffers that are being deleted or are not normal buffers
+          local valid_buffers = {}
+          for _, buf in ipairs(buffers) do
+            if buf.name ~= '' and vim.api.nvim_buf_is_valid(buf.bufnr) then
+              table.insert(valid_buffers, buf)
+            end
+          end
+
+          -- If no valid buffers remain, show dashboard
+          if #valid_buffers == 0 then
+            Snacks.dashboard.open()
+          end
+        end)
       end,
     })
   end,

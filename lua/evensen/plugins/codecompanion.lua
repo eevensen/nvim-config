@@ -24,7 +24,7 @@ return {
     { '<leader>cde', function() vim.cmd('CodeCompanion /Drupal Expert Mode') end, mode = 'n', desc = 'Drupal Expert Mode' },
     { '<leader>ce', function() vim.cmd('CodeCompanion /Explain Code') end, mode = 'v', desc = 'Explain Code' },
     { '<leader>cx', function() vim.cmd('CodeCompanion /Fix Code') end, mode = 'v', desc = 'Fix Code' },
-    { '<leader>cr', function() vim.cmd('CodeCompanion /Refactor Code') end, mode = 'v', desc = 'Refactor Code' },
+    { '<leader>cR', function() vim.cmd('CodeCompanion /Refactor Code') end, mode = 'v', desc = 'Refactor Code' },
     { '<leader>ct', function() vim.cmd('CodeCompanion /Generate Tests') end, mode = 'v', desc = 'Generate Tests' },
   },
   dependencies = {

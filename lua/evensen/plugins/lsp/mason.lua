@@ -18,7 +18,7 @@ return {
     },
     opts = {
       ensure_installed = {
-        'prettier',
+        'biome',
         'stylua',
         'isort', -- python formatter
         'black', -- python formatter
@@ -30,6 +30,7 @@ return {
         'phpcs',
         'phpcbf',
         'twiggy_language_server',
+        'emmet-language-server',
         'yamlls',
         'yamllint',
       },

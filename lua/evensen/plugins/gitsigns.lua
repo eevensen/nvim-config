@@ -14,6 +14,13 @@ return {
       changedelete = { text = '▎' },
       untracked = { text = '▎' },
     },
+    signs_staged = {
+      add = { text = '▎' },
+      change = { text = '▎' },
+      delete = { text = '' },
+      topdelete = { text = '' },
+      changedelete = { text = '▎' },
+    },
     signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
     numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
     linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
@@ -52,7 +59,7 @@ return {
       end
 
       -- Navigation
-      map('n', ']c', function()
+      map('n', ']h', function()
         if vim.wo.diff then
           return ']c'
         end
@@ -62,7 +69,7 @@ return {
         return '<Ignore>'
       end, { expr = true, desc = 'Next git hunk' })
 
-      map('n', '[c', function()
+      map('n', '[h', function()
         if vim.wo.diff then
           return '[c'
         end
@@ -97,6 +104,28 @@ return {
 
       -- Text object
       map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'Select git hunk' })
+
+      -- Git commands using leader g
+      map('n', '<leader>ghs', gs.stage_hunk, { desc = 'Git stage hunk' })
+      map('n', '<leader>ghr', gs.reset_hunk, { desc = 'Git reset hunk' })
+      map('v', '<leader>ghs', function()
+        gs.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+      end, { desc = 'Git stage hunk' })
+      map('v', '<leader>ghr', function()
+        gs.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+      end, { desc = 'Git reset hunk' })
+      map('n', '<leader>ghS', gs.stage_buffer, { desc = 'Git stage buffer' })
+      map('n', '<leader>ghu', gs.undo_stage_hunk, { desc = 'Git undo stage hunk' })
+      map('n', '<leader>ghR', gs.reset_buffer, { desc = 'Git reset buffer' })
+      map('n', '<leader>ghp', gs.preview_hunk, { desc = 'Git preview hunk' })
+      map('n', '<leader>ghb', function()
+        gs.blame_line({ full = true })
+      end, { desc = 'Git blame line' })
+      map('n', '<leader>ghB', gs.toggle_current_line_blame, { desc = 'Git toggle blame' })
+      map('n', '<leader>ghd', gs.diffthis, { desc = 'Git diff this' })
+      map('n', '<leader>ghD', function()
+        gs.diffthis('~')
+      end, { desc = 'Git diff this ~' })
     end,
   },
 }

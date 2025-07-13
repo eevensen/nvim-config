@@ -31,13 +31,29 @@ return {
     },
 
     -- (Default) Only show the documentation popup when manually triggered
-    completion = { documentation = { auto_show = true } },
+    completion = { 
+      documentation = { auto_show = true },
+      -- Trigger completion more aggressively for Emmet-style abbreviations
+      trigger = {
+        -- Show completion immediately after typing
+        show_in_snippet = true,
+        show_on_keyword = true,
+        show_on_trigger_character = true,
+      },
+    },
     signature = { enabled = true },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
+      providers = {
+        lsp = {
+          -- Ensure LSP completions work properly in Twig files
+          fallbacks = { 'buffer' },
+          score_offset = 100,
+        },
+      },
     },
 
     -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
