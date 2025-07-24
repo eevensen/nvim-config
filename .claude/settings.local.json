@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.lazyvim.org)",
+      "Bash(nvim:*)",
+      "Bash(rm:*)",
+      "Bash(mv:*)",
+      "Bash(find:*)",
+      "WebFetch(domain:github.com)"
+    ],
+    "deny": []
+  }
+}
